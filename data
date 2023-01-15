@@ -1,38 +1,34 @@
-# Log plano en una linea
+[alias]
+
+# One line log
 l1 = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short
 
-# estructura de arbol
+# Tree log
 l2 = log --graph --oneline --decorate --all
 
-# $ git log l3 JIRA # Will display all commits with 'JIRA' in the description  
-l3 = !git log --oneline | grep 
+# $ git lc XX  
+lc = !git log --oneline | grep 
 
 # Will show all the differences introduced in the last commit.
-l4 = log -p -1
+lcd = log -p -1
 
-# Todas las ramas, muestro sus updates
-branches-data = !git for-each-ref --sort=-committerdate refs/heads --format='%(HEAD)%(color:yellow)%(refname:short)|%(color:bold green)%(committerdate:relative)|%(color:blue)%(subject)|%(color:magenta)%(authorname)%(color:reset)' --color=always | column -ts'|'
-#
-checkout-remote-branches = "!sample100() { git fetch --all; for branch in `git branch -a | grep remotes | grep -v HEAD | grep -v master `; do git branch --track ${branch#remotes/origin/} $branch || true; done 2>/dev/null; }; sample100"
+# Display info of all branches
+bi = !git for-each-ref --sort=-committerdate refs/heads --format='%(HEAD)%(color:yellow)%(refname:short)|%(color:bold green)%(committerdate:relative)|%(color:blue)%(subject)|%(color:magenta)%(authorname)%(color:reset)' --color=always | column -ts'|'
+
+# Checkout all remote branches
+c-all = "!sample100() { git fetch --all; for branch in `git branch -a | grep remotes | grep -v HEAD | grep -v master `; do git branch --track ${branch#remotes/origin/} $branch || true; done 2>/dev/null; }; sample100"
 
 # git add + git commit ->  $ git snapshot Baa, baa black sheep
 snapshot = "!snapshot() { COMMENT=wip; if [ \"$*\" ]; then COMMENT=\"$*\"; fi; git add -A; git commit -m \"$COMMENT\";}; snapshot"
 
-# usado por simple commit
+# used by
 create-file = "!createFile() { for name in \"$@\"; do echo $name>$name.txt; done; }; createFile"
 
-# simple-commit sample ->  crea un commit con un archivo que le paso por parametro 
+# simple-commit sample 
 simple-commit = "!simpleCommit() { for name in \"$@\"; do git create-file \"$name\"; git snapshot $name; done; }; simpleCommit"
-
 
 # Usado por stat
 days = "!days() { git log --pretty=format:%cd --date=short | uniq; }; days"
 
-# estadisticas del repo
+# repo statistics
 stat = "!stat() { echo -n Number of revisions:; git log --oneline | wc -l; echo -n Number of developers:; git shortlog -s | wc -l; echo -n Number of days:; git days | wc -l; echo -n The working directory:; du -h -s --exclude=.git; echo -n The git directory:; du -h -s .git; echo -n Number of files in the working dir:; git ls-files | wc -l; }; stat"
-
-
-
-
-[core]
-	editor = 'C:/Program Files/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin
