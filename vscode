@@ -58,7 +58,9 @@ Edit json file
   "editor.selectionBackground": "#0fc162",
   "editor.selectionHighlightBackground": "#070bf0",
   "editor.selectionForeground": "#ff0000",
-  "editor.selectionHighlightBorder": "#ff0000"
+  "editor.selectionHighlightBorder": "#ff0000",
+    "tab.activeBorder": "#ff0000",
+  "tab.unfocusedActiveBorder": "#000000"
 },
 "explorer.confirmDelete": false,
 "editor.rename.enablePreview": false,
