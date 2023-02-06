@@ -1,1 +1,60 @@
+[user]
+	email = ramiro.alvarez@gmail.com
+	name = Ramiro Alvarez
+
+[alias]
+
+#############
+# Logs
+#############
+
+# One line log
+l1 = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short
+
+# Tree log
+l2 = log --graph --oneline --decorate --all
+
+# $ git lc XX  
+lc = !git log --oneline | grep 
+
+# Will show all the differences introduced in the last commit.
+lcd = log -p -1
+
+#############
+# Branch
+#############
+
+# Display info of all branches
+bi = !git for-each-ref --sort=-committerdate refs/heads --format='%(HEAD)%(color:yellow)%(refname:short)|%(color:bold green)%(committerdate:relative)|%(color:blue)%(subject)|%(color:magenta)%(authorname)%(color:reset)' --color=always | column -ts'|'
+
+#############
+# Fetch | Pull
+#############
+
+fetch-all = "!fetchall() { git fetch --all; for branch in `git branch -a | grep remotes | grep -v HEAD | grep -v master `; do git branch --track ${branch#remotes/origin/} $branch || true; done 2>/dev/null; }; fetchall"
+
+pull-all = "!pullall() { git fetch --all; for branch in $(git branch | sed '/*/{$q;h;d};$G' | tr -d '*') ; do git checkout $branch && git merge --ff-only || break ; done; }; pullall"
+
+#############
+# Stats
+#############
+
+# repo statistics
+stat = "!stat() { echo -n Number of revisions:; git log --oneline | wc -l; echo -n Number of developers:; git shortlog -s | wc -l; echo -n Number of days:; git days | wc -l; echo -n The working directory:; du -h -s --exclude=.git; echo -n The git directory:; du -h -s .git; echo -n Number of files in the working dir:; git ls-files | wc -l; }; stat"
+
+# Usado por stat
+days = "!days() { git log --pretty=format:%cd --date=short | uniq; }; days"
+
+#############
+# Testing
+#############
+
+# CREO ARCHIVO + ADD + COMMIT. Ej. git simple-commit sample
+simple-commit = "!simpleCommit() { for name in \"$@\"; do git create-file \"$name\"; git snapshot $name; done; }; simpleCommit"
+
+# ADD + COMMIT.  Utilizado por simple-commit Ej. git snapshot Baa, baa black sheep
+snapshot = "!snapshot() { COMMENT=wip; if [ \"$*\" ]; then COMMENT=\"$*\"; fi; git add -A; git commit -m \"$COMMENT\";}; snapshot"
+
+# CREO ARCHIVO. Utilizado por simple-commit. Ej. git create-file sample
+create-file = "!createFile() { for name in \"$@\"; do echo $name>$name.txt; done; }; createFile"
 
