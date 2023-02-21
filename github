@@ -9,12 +9,20 @@
 #############
 
 # One line log
-l1 = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short
+l1 = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short 
+
+# Uso fecha relative
+l1top = log -n 10 --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=relative 
+
+# Sin --graph
+l2 = log --abbrev-commit --decorate --date=relative -10 --format=format:'%C(bold blue)%h%C(reset) %C(bold yellow)%d%C(reset) %C(white)%s%C(reset) %C(green)(%ar)%C(reset) %C(dim white)- %an%C(reset)'
+
+l2top = log -n 10 --graph --abbrev-commit --decorate --date=relative -10 --format=format:'%C(bold blue)%h%C(reset) %C(bold yellow)%d%C(reset) %C(white)%s%C(reset) %C(green)(%ar)%C(reset) %C(dim white)- %an%C(reset)'
 
 # Tree log
-l2 = log --graph --oneline --decorate --all
+l3 = log --graph --oneline --decorate --all
 
-# $ git lc XX  
+# $ git lc JIRA -> Search for JIRA in commits descriptions  
 lc = !git log --oneline | grep 
 
 # Will show all the differences introduced in the last commit.
@@ -24,8 +32,11 @@ lcd = log -p -1
 # Branch
 #############
 
-# Display info of all branches
+# To see last commit by branch by user
 bi = !git for-each-ref --sort=-committerdate refs/heads --format='%(HEAD)%(color:yellow)%(refname:short)|%(color:bold green)%(committerdate:relative)|%(color:blue)%(subject)|%(color:magenta)%(authorname)%(color:reset)' --color=always | column -ts'|'
+
+# To see ahead (push) - behind (pull) status of origin
+bo = "!bo() { git branch -a -vv; }; bo"
 
 #############
 # Fetch | Pull
