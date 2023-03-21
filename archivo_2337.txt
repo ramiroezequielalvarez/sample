@@ -1,4 +1,221 @@
-creo el archivo desde develop
-s
-actualizo master
-fix rapido
+ void Main()
+{
+	//DapperQueries.FlatMapping().Dump();
+	//DapperQueries.OneToOneMapping().Dump();
+	//DapperQueries.OneToOneMappingSqlKata().Dump();
+	
+	//DapperQueries.OneToManyMapping().Dump();
+	
+	//DapperQueries.OneToOnePlusOneToManyMapping().Dump();
+	
+	DapperQueries.OneToOnePlusOneToManyPlusOneToOneMapping().Dump();
+
+	//var result = DapperQueries.GetCustomers();
+	//result.Select(r => DummyDomain.CreateCustomerDomain(r.CustomerID, r.CompanyName)).Dump();
+}
+
+public class DapperQueries
+{
+	//const string connectionString = @"Data Source=(LocalDb)\MSSQLLocalDB;Initial Catalog=Northwind;Integrated Security=True";
+	const string connectionString = "Server=localhost,2017;Database=Northwind;User Id=sa;password=AdventureWorks1234;Trusted_Connection=False;MultipleActiveResultSets=true;"; // AdventureWorks1234
+
+
+	public static List<Customer> FlatMapping()
+	{
+		List<Customer> customers = new List<Customer>();
+
+		using (IDbConnection db = new SqlConnection(connectionString))
+		{
+			// RenameField
+			customers = db.Query<Customer>("select CustomerID,CompanyName,ContactName,City,Fax as Dummy From Customers").ToList();
+		}
+		return customers;
+	}
+
+	public static IEnumerable<Order> OneToOneMapping()
+	{
+		IEnumerable<Order> orders = new List<Order>();
+		string sql = "SELECT * FROM Orders JOIN Customers ON Customers.CustomerID = Orders.CustomerID";
+		using (IDbConnection db = new SqlConnection(connectionString))
+		{
+			orders = db.Query<Order, Customer, Order>(sql, (order, customer) =>
+			{
+				order.Customer = customer;
+				return order;
+			}, splitOn: "OrderID,CustomerID");
+		}
+		return orders;
+	}
+
+	public static  IEnumerable<Order> OneToOneMappingSqlKata()
+	{
+		IEnumerable<Order> orders = new List<Order>();
+		
+		var query = new SqlKata.Query("Orders").Join("Customers", "Customers.CustomerID", "Orders.CustomerID");
+				
+		var compiler = new SqlServerCompiler();   //PostgresCompiler();   
+		
+		var compiled = compiler.Compile(query);
+		
+		var sql = compiled.Sql;
+		
+		var parameters = new DynamicParameters(compiled.NamedBindings);
+		
+		using (IDbConnection db = new SqlConnection(connectionString))
+		{
+			orders = db.Query<Order, Customer, Order>(sql, (order, customer) =>
+			{
+				order.Customer = customer;
+				return order;
+			}, parameters, splitOn: "OrderID,CustomerID");
+		}
+		return orders;
+	}
+
+
+	public static List<Order> OneToManyMapping()
+	{
+		string sql = @"SELECT TOP 10 * FROM Orders AS A 
+					                   INNER JOIN [Order Details] AS B ON A.OrderID = B.OrderID;";
+		List<Order> orders = new List<Order>();
+		using (var connection = new SqlConnection(connectionString))
+		{
+			var orderDictionary = new Dictionary<int, Order>();
+
+			orders = connection.Query<Order, OrderDetail, Order>(sql,(order, orderDetail) =>
+				{
+					Order orderEntry;
+
+					if (!orderDictionary.TryGetValue(order.OrderID, out orderEntry))
+					{
+						orderEntry = order;
+						orderEntry.OrderDetails = new List<OrderDetail>();
+						orderDictionary.Add(orderEntry.OrderID, orderEntry);
+					}
+
+					orderEntry.OrderDetails.Add(orderDetail);
+					return orderEntry;
+				},
+				splitOn: "OrderID")
+			.Distinct()
+			.ToList();
+		}
+
+		return orders;
+	}
+
+	public static List<Order> OneToOnePlusOneToManyMapping()
+	{
+		string sql3 = @"SELECT * FROM Orders JOIN Customers ON Customers.CustomerID = Orders.CustomerID 
+		                                     JOIN[Order Details] ON[Order Details].OrderID = Orders.OrderID;";
+		List<Order> orders2 = new List<Order>();
+		using (var connection = new SqlConnection(connectionString))
+		{
+			var orderDictionary = new Dictionary<int, Order>();
+
+			orders2 = connection.Query<Order, Customer, OrderDetail, Order>(
+				sql3,
+				(order, customer, orderDetail) =>
+				{
+					Order orderEntry;
+
+					if (!orderDictionary.TryGetValue(order.OrderID, out orderEntry))
+					{
+						orderEntry = order;
+						orderEntry.OrderDetails = new List<OrderDetail>();
+						orderDictionary.Add(orderEntry.OrderID, orderEntry);
+					}
+					order.Customer = customer;
+					orderEntry.OrderDetails.Add(orderDetail);
+					return orderEntry;
+				},
+				splitOn: "OrderID,CustomerID,OrderID")
+			.Distinct()
+			.ToList();
+		}
+
+		return orders2;
+	}
+
+	public static List<Order> OneToOnePlusOneToManyPlusOneToOneMapping()
+	{
+		string sql4 = @"SELECT * FROM Orders JOIN Customers ON Customers.CustomerID = Orders.CustomerID 
+		                                     JOIN[Order Details] ON[Order Details].OrderID = Orders.OrderID 
+											 JOIN Products ON Products.ProductID = [Order Details].ProductID";
+		List<Order> orders3 = new List<Order>();
+		using (var connection = new SqlConnection(connectionString))
+		{
+			var orderDictionary = new Dictionary<int, Order>();
+
+			orders3 = connection.Query<Order, Customer, OrderDetail, Product, Order>(
+				sql4,
+				(order, customer, orderDetail, product) =>
+				{
+					Order orderEntry;
+
+					if (!orderDictionary.TryGetValue(order.OrderID, out orderEntry))
+					{
+						orderEntry = order;
+						orderEntry.OrderDetails = new List<OrderDetail>();
+						orderDictionary.Add(orderEntry.OrderID, orderEntry);
+					}
+					order.Customer = customer;
+					orderDetail.Product = product;
+					orderEntry.OrderDetails.Add(orderDetail);
+					return orderEntry;
+				},
+				splitOn: "OrderID,CustomerID,OrderID,ProductID")
+			.Distinct()
+			.ToList();
+		}
+		return orders3;
+	}
+}
+
+public class DummyDomain
+{
+	public string Id { get; }
+	public string Empresa { get; }
+
+	protected DummyDomain(string _id, string _empresa)
+	{
+		Id = _id;
+		Empresa = _empresa;
+	}
+
+	public static DummyDomain CreateCustomerDomain(string id, string _empresa)
+	{
+		return new DummyDomain(id, _empresa);
+	}
+
+}
+
+public class Customer
+{
+	public string CustomerID { get; set; }
+	public string CompanyName { get; set; }
+	public string ContactName { get; set; }
+	public string City { get; set; }
+	public string Dummy { get; set; }
+}
+
+public class Product
+{
+	public int ProductID { get; set; }
+	public string ProductName { get; set; }
+}
+
+public class OrderDetail
+{
+	public int OrderID { get; set; }
+	public Product Product { get; set; }
+	public int Quantity { get; set; }
+}
+
+public class Order
+{
+	public int OrderID { get; set; }
+	public Customer Customer { get; set; }
+	public int ShipVia { get; set; }
+	public List<OrderDetail> OrderDetails { get; set; }
+}
