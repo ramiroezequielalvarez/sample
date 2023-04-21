@@ -3,7 +3,7 @@
                 using var appContext = scope.ServiceProvider.GetRequiredService<EmployeeContext>();
                 try
                 {
-                    appContext.Database.EnsureCreated();
+                    appContext.Database.EnsureCreated();  KNDD-1CT1-WPYV-TWAM-2GAN-HFBM-EZCB-XHQ3-EF2C-3BHW-IVVH-PSP1
                 }
                 catch (Exception ex)
                 {
