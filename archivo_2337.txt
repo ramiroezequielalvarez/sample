@@ -1,44 +1,5 @@
-public class PostgresDatabaseFixture : DatabaseFixture
+[CollectionDefinition(Name)]
+public class IntegrationTestCollection : ICollectionFixture<PostgresDatabaseFixture>
 {
-    private readonly PostgresDatabaseOptions _postgresDatabaseOptions;
-
-    public PostgresDatabaseFixture()
-    {
-        var configuration = new MyWeatherAppApiTestConfiguration();
-        _postgresDatabaseOptions = new PostgresDatabaseOptions
-        {
-            ConnectionString = configuration.PostgresConnectionString
-        };
-    }
-
-    public override async Task InitializeAsync()
-    {
-        await using var dbContext = new WeatherForecastDbContext(_postgresDatabaseOptions);
-        await dbContext.Database.MigrateAsync();
-        await ResetDatabase();
-    }
-
-    public override Task DisposeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public async Task ResetDatabase()
-    {
-        await using var npsqlConnection = new NpgsqlConnection(_postgresDatabaseOptions.ConnectionString);
-        await npsqlConnection.OpenAsync();
-        var respawner = await Respawner.CreateAsync(npsqlConnection,
-            new RespawnerOptions
-            {
-                DbAdapter = DbAdapter.Postgres,
-                SchemasToInclude = new[] { "public" },
-                TablesToIgnore = new Table[] { "__EFMigrationsHistory" }
-            });
-        await respawner.ResetAsync(npsqlConnection);
-    }
-
-    public WeatherForecastDbContext CreateWeatherForecastDbContext()
-    {
-        return new WeatherForecastDbContext(_postgresDatabaseOptions);
-    }
+    public const string Name = "Integration Test";
 }
