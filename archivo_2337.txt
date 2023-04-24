@@ -1,87 +1,16 @@
-using System;
-using System.IO;
-using System.Threading.Tasks;
-using Conduit.Infrastructure;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Conduit.Integration.Tests
+public class PostgresDatabaseOptions
 {
-    public class SliceFixture : IDisposable
+    public required string ConnectionString { get; init; }
+
+    public DbContextOptions DbContextOptions
     {
-        private static readonly IConfiguration CONFIG;
-        private readonly IServiceScopeFactory _scopeFactory;
-        private readonly ServiceProvider _provider;
-        private readonly string _dbName = Guid.NewGuid() + ".db";
-
-        static SliceFixture() =>
-            CONFIG = new ConfigurationBuilder().AddEnvironmentVariables().Build();
-
-        public SliceFixture()
+        get
         {
-            var startup = new Startup(CONFIG);
-            var services = new ServiceCollection();
-
-            var builder = new DbContextOptionsBuilder();
-            _ = builder.UseInMemoryDatabase(_dbName);
-            _ = services.AddSingleton(new ConduitContext(builder.Options));
-
-            startup.ConfigureServices(services);
-
-            _provider = services.BuildServiceProvider();
-
-            _ = GetDbContext().Database.EnsureCreated();
-            _scopeFactory = _provider.GetService<IServiceScopeFactory>();
-        }
-
-        public ConduitContext GetDbContext() => _provider.GetRequiredService<ConduitContext>();
-
-        public void Dispose() => File.Delete(_dbName);
-
-        public Task<TResponse> SendAsync<TResponse>(IRequest<TResponse> request) =>
-            ExecuteScopeAsync(sp =>
-            {
-                var mediator = sp.GetService<IMediator>();
-
-                return mediator.Send(request);
-            });
-
-        public Task SendAsync(IRequest request) =>
-            ExecuteScopeAsync(sp =>
-            {
-                var mediator = sp.GetService<IMediator>();
-
-                return mediator.Send(request);
-            });
-
-        public Task ExecuteDbContextAsync(Func<ConduitContext, Task> action) =>
-            ExecuteScopeAsync(sp => action(sp.GetService<ConduitContext>()));
-
-        public Task<T> ExecuteDbContextAsync<T>(Func<ConduitContext, Task<T>> action) =>
-            ExecuteScopeAsync(sp => action(sp.GetService<ConduitContext>()));
-
-        public Task InsertAsync(params object[] entities) =>
-            ExecuteDbContextAsync(db =>
-            {
-                foreach (var entity in entities)
-                {
-                    db.Add(entity);
-                }
-                return db.SaveChangesAsync();
-            });
-
-        private async Task ExecuteScopeAsync(Func<IServiceProvider, Task> action)
-        {
-            using var scope = _scopeFactory.CreateScope();
-            await action(scope.ServiceProvider);
-        }
-
-        private async Task<T> ExecuteScopeAsync<T>(Func<IServiceProvider, Task<T>> action)
-        {
-            using var scope = _scopeFactory.CreateScope();
-            return await action(scope.ServiceProvider);
+            return new DbContextOptionsBuilder()
+                .UseNpgsql(ConnectionString,
+                    optionsBuilder =>
+                        optionsBuilder.MigrationsAssembly("MyWeatherApp.Database"))
+                .UseSnakeCaseNamingConvention().Options;
         }
     }
 }
