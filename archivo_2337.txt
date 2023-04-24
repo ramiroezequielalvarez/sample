@@ -1,16 +1,16 @@
-public class PostgresDatabaseOptions
+public class TestConfiguration : Dictionary<string, string>
 {
-    public required string ConnectionString { get; init; }
+}
 
-    public DbContextOptions DbContextOptions
+
+
+public class MyWeatherAppApiTestConfiguration : TestConfiguration
+{
+    public MyWeatherAppApiTestConfiguration()
     {
-        get
-        {
-            return new DbContextOptionsBuilder()
-                .UseNpgsql(ConnectionString,
-                    optionsBuilder =>
-                        optionsBuilder.MigrationsAssembly("MyWeatherApp.Database"))
-                .UseSnakeCaseNamingConvention().Options;
-        }
+        this["ASPNETCORE_ENVIRONMENT"] = "TestRunner";
+        this["Postgres:ConnectionString"] = "Host=127.0.0.1;Port=5432;Username=postgres;Password=root;Database=my_weather_app_test";
     }
+
+    public string PostgresConnectionString => this["Postgres:ConnectionString"];
 }
