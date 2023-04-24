@@ -1,13 +1,44 @@
-public class MyWeatherAppApiFixture : WebApplicationFactory<Program>
+public class PostgresDatabaseFixture : DatabaseFixture
 {
-    protected override void ConfigureWebHost(IWebHostBuilder builder)
+    private readonly PostgresDatabaseOptions _postgresDatabaseOptions;
+
+    public PostgresDatabaseFixture()
     {
-        var testConfiguration = new MyWeatherAppApiTestConfiguration();
-        builder
-            .UseEnvironment(testConfiguration["ASPNETCORE_ENVIRONMENT"])
-            .ConfigureAppConfiguration(configurationBuilder =>
+        var configuration = new MyWeatherAppApiTestConfiguration();
+        _postgresDatabaseOptions = new PostgresDatabaseOptions
+        {
+            ConnectionString = configuration.PostgresConnectionString
+        };
+    }
+
+    public override async Task InitializeAsync()
+    {
+        await using var dbContext = new WeatherForecastDbContext(_postgresDatabaseOptions);
+        await dbContext.Database.MigrateAsync();
+        await ResetDatabase();
+    }
+
+    public override Task DisposeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    public async Task ResetDatabase()
+    {
+        await using var npsqlConnection = new NpgsqlConnection(_postgresDatabaseOptions.ConnectionString);
+        await npsqlConnection.OpenAsync();
+        var respawner = await Respawner.CreateAsync(npsqlConnection,
+            new RespawnerOptions
             {
-                configurationBuilder.AddInMemoryCollection(testConfiguration!);
+                DbAdapter = DbAdapter.Postgres,
+                SchemasToInclude = new[] { "public" },
+                TablesToIgnore = new Table[] { "__EFMigrationsHistory" }
             });
+        await respawner.ResetAsync(npsqlConnection);
+    }
+
+    public WeatherForecastDbContext CreateWeatherForecastDbContext()
+    {
+        return new WeatherForecastDbContext(_postgresDatabaseOptions);
     }
 }
