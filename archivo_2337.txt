@@ -1,16 +1,13 @@
-public class TestConfiguration : Dictionary<string, string>
+public class MyWeatherAppApiFixture : WebApplicationFactory<Program>
 {
-}
-
-
-
-public class MyWeatherAppApiTestConfiguration : TestConfiguration
-{
-    public MyWeatherAppApiTestConfiguration()
+    protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        this["ASPNETCORE_ENVIRONMENT"] = "TestRunner";
-        this["Postgres:ConnectionString"] = "Host=127.0.0.1;Port=5432;Username=postgres;Password=root;Database=my_weather_app_test";
+        var testConfiguration = new MyWeatherAppApiTestConfiguration();
+        builder
+            .UseEnvironment(testConfiguration["ASPNETCORE_ENVIRONMENT"])
+            .ConfigureAppConfiguration(configurationBuilder =>
+            {
+                configurationBuilder.AddInMemoryCollection(testConfiguration!);
+            });
     }
-
-    public string PostgresConnectionString => this["Postgres:ConnectionString"];
 }
