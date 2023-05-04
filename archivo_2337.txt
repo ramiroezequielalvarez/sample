@@ -1,6 +1,8 @@
 https://github.com/daredev127/webeng-admin/tree/main
 
     public async Task ResetDatabase()
+    Host=127.0.0.1;Port=5432;Username=postgres;Password=root;Database=my_weather_app
+    
     {
         await using var npsqlConnection = new NpgsqlConnection(_postgresDatabaseOptions.ConnectionString);
         await npsqlConnection.OpenAsync();
