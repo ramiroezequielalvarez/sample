@@ -1,17 +1,1 @@
-https://github.com/daredev127/webeng-admin/tree/main
-
-    public async Task ResetDatabase()
-    Host=127.0.0.1;Port=5432;Username=postgres;Password=root;Database=my_weather_app
-    
-    {
-        await using var npsqlConnection = new NpgsqlConnection(_postgresDatabaseOptions.ConnectionString);
-        await npsqlConnection.OpenAsync();
-        var respawner = await Respawner.CreateAsync(npsqlConnection,
-            new RespawnerOptions
-            {
-                DbAdapter = DbAdapter.Postgres,
-                SchemasToInclude = new[] { "public" },
-                TablesToIgnore = new Table[] { "__EFMigrationsHistory" }
-            });
-        await respawner.ResetAsync(npsqlConnection);
-    }
+https://anthonygiretti.com/2021/04/16/testserver-asp-net-core-5-fix-system-invalidoperationexception-solution-root-could-not-be-located-using-application-root-with-a-custom-startup-file/
