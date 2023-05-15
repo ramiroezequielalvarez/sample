@@ -1,6 +1,20 @@
-If you hit an ERR_OSSL_EVP_UNSUPPORTED error in your application with Node.js 17, it’s likely that your application or a module you’re using is attempting to use an algorithm or key size which is no longer allowed by default with OpenSSL 3.0. A command-line option, --openssl-legacy-provider, has been added to revert to the legacy provider as a temporary workaround for these tightened restrictions.
-
-###
---openssl-legacy-provider
-Added in: v16.17.0
-Enable OpenSSL 3.0 legacy provider when dynamically linking to OpenSSL 3.x. For more information please see OSSL_PROVIDER-legacy.
+public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+{
+    private readonly IEnumerable<IValidator<TRequest>> _validators;
+    public ValidationBehaviour(IEnumerable<IValidator<TRequest>> validators)
+    {
+        _validators = validators;
+    }
+    public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+    {
+        if (_validators.Any())
+        {
+            var context = new ValidationContext<TRequest>(request);
+            var validationResults = await Task.WhenAll(_validators.Select(v => v.ValidateAsync(context, cancellationToken)));
+            var failures = validationResults.SelectMany(r => r.Errors).Where(f => f != null).ToList();
+            if (failures.Count != 0)
+                throw new FluentValidation.ValidationException(failures);
+        }
+        return await next();
+    }
+}
