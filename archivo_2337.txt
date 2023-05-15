@@ -1,20 +1,7 @@
-public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
-{
-    private readonly IEnumerable<IValidator<TRequest>> _validators;
-    public ValidationBehaviour(IEnumerable<IValidator<TRequest>> validators)
-    {
-        _validators = validators;
-    }
-    public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
-    {
-        if (_validators.Any())
-        {
-            var context = new ValidationContext<TRequest>(request);
-            var validationResults = await Task.WhenAll(_validators.Select(v => v.ValidateAsync(context, cancellationToken)));
-            var failures = validationResults.SelectMany(r => r.Errors).Where(f => f != null).ToList();
-            if (failures.Count != 0)
-                throw new FluentValidation.ValidationException(failures);
-        }
-        return await next();
-    }
-}
+Hi Hillary, I was just talking to Camille because he can't access the development query service from his local machine. 
+
+Until now, she was just running the local ui and everything works fine. But last week the devops team changed something and she can't access it anymore. She has the following error.
+
+The alternative to this, is for Camille to have all the devs environment locally, i.e. VS Code, NET, and run the query services locally and access the database locally (including the necessary migrations).
+
+I think it makes no sense to do all that when it is something that can be solved, simply by reverting back the change that devosp made.
