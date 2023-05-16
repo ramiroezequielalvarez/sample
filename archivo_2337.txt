@@ -1,7 +1,1 @@
-Hi Hillary, I was just talking to Camille because he can't access the development query service from his local machine. 
-
-Until now, she was just running the local ui and everything works fine. But last week the devops team changed something and she can't access it anymore. She has the following error.
-
-The alternative to this, is for Camille to have all the devs environment locally, i.e. VS Code, NET, and run the query services locally and access the database locally (including the necessary migrations).
-
-I think it makes no sense to do all that when it is something that can be solved, simply by reverting back the change that devosp made.
+https://www.transfermarkt.com/alexis-mac-allister/geruechte/spieler/534033
