@@ -1,29 +1,55 @@
-The idea is to have 3 independent branches ready to deploy to TEST.
-
-Camille's work is consumed by Erica. Erica's work is then consumed by Ramiro.
-
-Camille always works in the /feature/client-curves branch.
-- If she wants to deploy to TEST her branch (which only has wireframes) she can just deploy her /feature/client-curves branch in [UI].
-
-Erica always works on the /feature/client-curves-wired branch. 
-	- she can merge her branch with Camille's branch on a daily basis. This way she has the html, css and mocks up to date. 
-- When she considers necessary, she can deploy her branch to Test. 
-	- This requires deploying the following branches to test
-			[domain] - branch: feature/cons-curve-approval 
-			[data] - branch: feature/cons-curve-approval  
-			[query] - branch: feature/cons-curve-approval  
-			[command] -branch: feature/cons-cons-curve-approval  
-			[UI] - branch: /feature/client-curves-wired
-
-Ramiro always works on the /feature/client-curve-approved branch.
-	- I merge my branch with Erica's branch on a daily basis. This way I have Camille + Erica's changes.
-- when I consider necessary I can deploy her branch to Test.
-	- This requires deploying the following branches to test
-			[domain] - branch: feature/client-curve-approval 
-			[data] - branch: feature/client-curve-approval  
-			[query] - branch: feature/client-curve-approval  
-			[command] -branch: feature/client-curve-approval  
-			UI] - branch: /feature/client-curve-approval [UI] - branch: /feature/client-curve-approval
-
-
-Translated with www.DeepL.com/Translator (free version)
+{
+  "root": true,
+  "ignorePatterns": [
+    "projects/**/*"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ],
+      "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "plugin:prettier/recommended"
+      ],
+      "rules": {
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": "app",
+            "style": "camelCase"
+          }
+        ],
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "app",
+            "style": "kebab-case"
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "*.html"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended"
+      ],
+      "rules": {}
+    },
+    {
+      "files": ["*.html"],
+      "excludedFiles": ["*inline-template-*.component.html"],
+      "extends": ["plugin:prettier/recommended"],
+      "rules": {
+        "prettier/prettier": ["error", { "parser": "angular" }]
+      }
+    }
+  ]
+}
