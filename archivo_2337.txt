@@ -1,1 +1,78 @@
-https://stackblitz.com/edit/angular-customvalidator-dhcmd4?file=app%2Fapp.validators.ts
+ng new my-app-x
+cd my-app-x
+ng add @angular-eslint/schematics
+npm install husky prettier prettier-eslint eslint-config-prettier eslint-plugin-prettier --save-dev
+
+touch .prettierrc.json
+
+{
+  "tabWidth": 2,
+  "useTabs": false,
+  "singleQuote": true,
+  "semi": true,
+  "bracketSpacing": true,
+  "arrowParens": "avoid",
+  "trailingComma": "es5",
+  "bracketSameLine": true,
+  "printWidth": 80
+}
+
+edit the .eslintrc.json
+
+
+{
+  "root": true,
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "extends": [
+        ...
+        "plugin:prettier/recommended"   <---------------------------------------------
+      ],
+    },
+    {
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"],
+      "rules": {}
+    },
+	
+	# Agregar todo el siguiente objeto <---------------------------------------------
+    {
+      "files": ["*.html"],
+      "excludedFiles": ["*inline-template-*.component.html"],
+      "extends": ["plugin:prettier/recommended"],
+      "rules": {
+        "prettier/prettier": ["error", { "parser": "angular" }]
+      }
+    }
+  ]
+}
+
+##
+##
+Verificar que package.json tenga lo siguiente
+
+"lint": "ng lint --fix",
+"format": "prettier src/**/*.{ts,html,css} --write"
+
+## Debajo de devDependencies
+	
+"husky": {
+	"hooks": {
+		"pre-commit": "npm run lint",
+		"pre-push": "npm run format"
+	}
+}
+
+###	
+WebStorm Prettier Automatico + SaveOnDev + Eslint Automatico + SaveOnDev
+
+-> Para prettier run for files, agregar html y css -> {**/*,*}.{js,ts,jsx,html,scss,tsx,vue,astro} 
+
+# ng lint --fix     ->> Aunque los puedo ejecutar globales, tb tengo run on save
+# npm run format    ->> Aunque los puedo ejecutar globales, tb tengo run on save
+# npm run lint      ->> Aunque los puedo ejecutar globales, tb tengo run on save
+
+
+## EJ- En Webstorm voy a solapa "Problems" y antes que guarde el archivo ya ESLINT me dice algo si presiono un "enter". Es decir
+   que EsLint esta conectado con Prettier.
