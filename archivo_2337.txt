@@ -1,3 +1,5 @@
-function isNumeric(n) {
-  return !isNaN(parseFloat(n)) && isFinite(n);
-}
+In external managers we have the field "LegacySolutionId" which is equal to "LegacyCashflowGroupId" in Cashflows and which is equal to "ClientCurveId" or "AMS Solution ID" in Curves....
+
+Currently when creating a curve, the "AMS Solution ID" field must be filled in. 
+
+The question is, should I remove the input "AMS Solution ID" and the field in the curves database and add the input "AMS Solution ID" in cashflows? (The field LegacyCashflowGroupId == ClientCurveId I already have in cashflows database because of the migration).
