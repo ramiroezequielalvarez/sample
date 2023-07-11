@@ -1,1 +1,6 @@
 
+Now when creating a new client curve, it is not necessary to enter the AMSSolutionID = ClientCurveId in the UI, because the curves microservice uses the "Code" concept (although the ClientCurveId field in the database will remain for now).
+
+So when specifying  a "new" client curve group (that does not have an associated AMSSolutionID in Curves) in Cashflows in the UI an input must be enabled to enter the AMSSolutionId.
+
+but if the curve does have an AMSSolutionId in the Curves database, it is correct that the curves AMSSolutionID is automatically assigned to the input and cannot be edited Eg. readonly input (this would avoid possible typing errors).
