@@ -1,9 +1,8 @@
-yesterday I was finishing the story to update an approved cash flow
+  myFilter10(date: Date | null): boolean {
+    date = date ?? new Date();
+    const dayOfMonth = date.getTime();
+    const lastDayOfMonth = new Date('02/25/2023').getTime();
 
-today I started with the story to add AMS Solution id in Cashflows
-
--> the idea is that the new curves will have 0 as client_curve_id in the curves database
-
--> if I want to add a new curves in cashflows with client_curve_id = 0 the user must enter AMS_Solution_ID
-
--> if I want to add a new curves in cashflows with client_curve_id > 0 it autocompletes AMS_Solution_ID
+    return dayOfMonth === lastDayOfMonth || date > new Date();
+    //
+  }
