@@ -1,8 +1,15 @@
   myFilter10(date: Date | null): boolean {
     date = date ?? new Date();
     const dayOfMonth = date.getTime();
-    const lastDayOfMonth = new Date('02/25/2023').getTime();
+    const currentDate = new Date('06/25/2023').getTime();
 
-    return dayOfMonth === lastDayOfMonth || date > new Date();
-    //
-  }
+    var d = new Date();
+    d.setDate(d.getDate() - 1);
+
+    if (currentDate) {
+      return dayOfMonth === currentDate || date > d;
+      //console.log(date);
+      //return date > d;
+    } else {
+      return date > d;
+    }
