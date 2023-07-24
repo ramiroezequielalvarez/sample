@@ -1,1 +1,3 @@
-  <input matInput [matDatepickerFilter]="myFilter10" [matDatepicker]="picker" />
+myHolidayFilter = (d: any): boolean => {
+const time=d.getTime();
+return !this.myHolidayDates.find(x=>x.getTime()==time);
