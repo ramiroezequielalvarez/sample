@@ -1,1 +1,1 @@
-https://windowsreport.com/cannot-find-message-text-for-message-number/#:~:text=This%20error%20usually%20occurs%20if,Prompt%20shortcut%20and%20recreate%20it.
+for /d /r . %d in (bin,obj) do @if exist "%d" rd /s/q "%d"
