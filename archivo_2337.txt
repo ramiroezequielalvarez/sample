@@ -1,3 +1,1 @@
-https://github.com/dotnet/dotnet-docker/issues/4201
-https://github.com/dotnet/dotnet-docker/issues/1366
-https://devblogs.microsoft.com/dotnet/date-time-and-time-zone-enhancements-in-net-6/
+^(\s*|[1-9]?\d|100)$
