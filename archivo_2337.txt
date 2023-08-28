@@ -1,1 +1,2 @@
-^(\s*|[1-9]?\d|100)$
+License Name: Ramiro Alvarez
+License: KNDD-1CT1-WPYV-TWAM-2GAN-HFBM-EZCB-XHQ3-EF2C-3BHW-IVVH-PSP1
