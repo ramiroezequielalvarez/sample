@@ -1,1 +1,34 @@
-https://github.com/maxkoshevoi/DateOnlyTimeOnly.AspNet
+//let a = "$5,000,000.65";
+let a = "$5,000,000.35"
+a = "50"
+//let replacedSt = a.replaceAll(",", "").replaceAll("$", "");
+var regexWithoutUsdSign = /^((?:\d+|\d{1,3}(?:,\d{3})+)(?:\.\d+)?)$/; // le falta que empiece con $
+var regextWithUsdSign = /^\$((?:\d+|\d{1,3}(?:,\d{3})+)(?:\.\d+)?)$/; // le falta que empiece con $
+
+if(regextWithUsdSign.test(a))
+{
+  console.log("Tiene $")
+  a = a.replace('$','') // solo el primero
+  a = a.replace(/,/g,'')
+}
+else
+{
+  if(regexWithoutUsdSign.test(a))
+  {
+    console.log("Valido porque no tiene $")
+    a = a.replace(/,/g,'')
+  }
+  else
+  {
+    console.log("Invalido regexWithoutUsdSign")
+  }
+}
+console.log(Number.isFinite(+a));
+console.log(a)
+
+
+
+
+
+
+
