@@ -9,3 +9,18 @@
 <!-- Copyright 2023 Google LLC. All Rights Reserved.
     Use of this source code is governed by an MIT-style license that
     can be found in the LICENSE file at https://angular.io/license -->
+
+  myFilter10(date: Date | null): boolean {
+    date = date ?? new Date();
+    const dayOfMonth = date.getTime();
+
+    // If tengo date. Le asigno y hago el return completo
+    const lastDayOfMonth = new Date('09/10/2023').getTime();
+
+    let d = new Date();
+    d.setDate(d.getDate() - 1);
+    // Si no tengo date. Solo hago el >
+    //return dayOfMonth === lastDayOfMonth || date > new Date();
+    return dayOfMonth === lastDayOfMonth || date > d;
+    //
+  }
