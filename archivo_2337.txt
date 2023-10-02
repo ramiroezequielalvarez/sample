@@ -1,13 +1,1 @@
-.prettierrc.json
-
-{
-  "tabWidth": 2,
-  "useTabs": false,
-  "singleQuote": true,
-  "semi": true,
-  "bracketSpacing": true,
-  "arrowParens": "avoid",
-  "trailingComma": "es5",
-  "bracketSameLine": true,
-  "printWidth": 80
-}
+^[1-9]{1}[0-9]?(?:\.\d{1,2})?$|^0\.\d{1,2}?$|100
