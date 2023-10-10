@@ -1,1 +1,5 @@
-var quote_str = `'${value}'`;
+function singlequote(text) {
+    return `'${text}'`;
+}
+
+var quote_str = singlequote(str);
