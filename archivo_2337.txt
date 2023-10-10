@@ -3,3 +3,4 @@ function singlequote(text) {
 }
 
 var quote_str = singlequote(str);
+var re = "'" + value + "'";
