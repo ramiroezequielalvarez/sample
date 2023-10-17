@@ -1,6 +1,17 @@
-function singlequote(text) {
-    return `'${text}'`;
-}
+  myFilter11 = (d: Date | null): boolean => {
+    let enableFlag = false;
+    console.log('HOL');
+    const arrayOfDates = [];
+    const date1 = new Date('10/13/2023').getTime();
+    const date2 = new Date('10/09/2023').getTime();
+    arrayOfDates[0] = date1;
+    arrayOfDates[1] = date2;
 
-var quote_str = singlequote(str);
-var re = "'" + value + "'";
+    arrayOfDates.some((date) => {
+      console.log('Fecha', date);
+      if (date === d?.getTime()) {
+        enableFlag = true;
+      }
+    });
+    return enableFlag;
+  };
