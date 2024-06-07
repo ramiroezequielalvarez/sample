@@ -11,3 +11,27 @@ export function myAsyncValidator(param1: string, validationService: MyValidation
     );
   };
 }
+
+
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MyValidationService } from './my-validation.service';
+import { myAsyncValidator } from './my-async-validator';
+
+@Component({
+  selector: 'app-my-component',
+  templateUrl: './my-component.component.html',
+})
+export class MyComponent {
+  myForm: FormGroup;
+
+  constructor(private fb: FormBuilder, private validationService: MyValidationService) {
+    this.myForm = this.fb.group({
+      myField: ['', {
+        validators: [Validators.required],
+        asyncValidators: [myAsyncValidator('paramValue', this.validationService)],
+        updateOn: 'blur' // Esto asegura que la validación asíncrona no se dispare en cada cambio de valor
+      }]
+    });
+  }
+}
