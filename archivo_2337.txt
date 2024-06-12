@@ -1,37 +1,7 @@
-import { AbstractControl, ValidationErrors, AsyncValidatorFn } from '@angular/forms';
-import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import { MyValidationService } from './my-validation.service';
-
-export function myAsyncValidator(param1: string, validationService: MyValidationService): AsyncValidatorFn {
-  return (control: AbstractControl): Observable<ValidationErrors | null> => {
-    return validationService.validate(param1, control.value).pipe(
-      map(isValid => (isValid ? null : { invalidAsync: true })),
-      catchError(() => of(null))
-    );
-  };
-}
-
-
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MyValidationService } from './my-validation.service';
-import { myAsyncValidator } from './my-async-validator';
-
-@Component({
-  selector: 'app-my-component',
-  templateUrl: './my-component.component.html',
-})
-export class MyComponent {
-  myForm: FormGroup;
-
-  constructor(private fb: FormBuilder, private validationService: MyValidationService) {
-    this.myForm = this.fb.group({
-      myField: ['', {
-        validators: [Validators.required],
-        asyncValidators: [myAsyncValidator('paramValue', this.validationService)],
-        updateOn: 'blur' // Esto asegura que la validación asíncrona no se dispare en cada cambio de valor
-      }]
-    });
-  }
-}
+    public static void AgainstFalse(this IGuardClause guardClause, bool input, string parameterName)
+    {
+        if (!input)
+        {
+            throw new ArgumentException($"Required input {parameterName} was false.", parameterName);
+        }
+    }
