@@ -1,7 +1,1 @@
-    public static void AgainstFalse(this IGuardClause guardClause, bool input, string parameterName)
-    {
-        if (!input)
-        {
-            throw new ArgumentException($"Required input {parameterName} was false.", parameterName);
-        }
-    }
+SELECT SETVAL(pg_get_serial_sequence('table_name', 'column_name'), (SELECT MAX(column_name) FROM table_name));
