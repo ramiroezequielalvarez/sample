@@ -1,1 +1,3 @@
-SELECT SETVAL(pg_get_serial_sequence('table_name', 'column_name'), (SELECT MAX(column_name) FROM table_name));
+       RuleFor(user => user.ConfirmPassword)
+            .NotEmpty().WithMessage("Confirm Password is required.")
+            .Equal(user => user.Password).WithMessage("Passwords must match.");
