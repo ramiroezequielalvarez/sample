@@ -1,1 +1,1 @@
-https://github.com/coverlet-coverage/coverlet
+this.myForm.get('control2')?.setValue(value, { emitEvent: true });
