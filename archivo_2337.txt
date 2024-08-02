@@ -1,4 +1,3 @@
-User Authentication: The user logs into Azure AD.
-Authorization Code: After login, Azure AD redirects the user back to the client application with an authorization code.
-Access Token: The client application exchanges the authorization code for an access token from Azure AD.
-API Call: The client uses the access token to make API calls to the resource server.
+https://github.com/stephanrauh/angular-jest/tree/main
+
+https://www.beyondjava.net/jest-mocks-and-spies
