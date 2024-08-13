@@ -1,3 +1,4 @@
-https://github.com/stephanrauh/angular-jest/tree/main
+        Type type = typeof(MiClase);
 
-https://www.beyondjava.net/jest-mocks-and-spies
+        // Obtener la propiedad privada mediante su nombre
+        PropertyInfo propiedadPrivada = type.GetProperty("MiPropiedadPrivada", BindingFlags.NonPublic | BindingFlags.Instance);
