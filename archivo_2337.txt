@@ -1,5 +1,1 @@
-I know the price of a stock today. I know the strike price of an option today. Therefore, if I build my portfolio using a binomial option model, I can determine the theoretical value of an option today. And in this way, I can know if it is expensive or cheap.
-
-If the binomial model is 1-period, the valuation will be less precise because it cannot capture the price dynamics. In contrast, with N periods, my valuation (whether it is expensive or cheap) will be more accurate.
-
-A binomial model with a large number of periods can provide a valuation close to that given by the Black-Scholes model and providing a more accurate estimate of whether an option is expensive or cheap
+The Black-Scholes parameters 'underlying asset volatility' and 'risk-free rate' are the most difficult to estimate and significantly affect the model's outcome. (For example, Japan raised its interest rate, and the market fell sharply
