@@ -4,3 +4,7 @@
     "token": "your-sonarqube-token"
   }
 ]
+
+"sonarlint.connectedMode.project": {
+  "projectKey": "your-project-key"
+}
