@@ -1,10 +1,30 @@
-"sonarlint.connectedMode.connections.sonarqube": [
-  {
-    "serverUrl": "http://your-sonarqube-server-url",
-    "token": "your-sonarqube-token"
+{
+  "sonarlint.connectedMode.connections.sonarqube": [
+    {
+      "serverUrl": "http://your-sonarqube-server-url",
+      "token": "your-sonarqube-token"
+    }
+  ],
+  "sonarlint.connectedMode.project": {
+    "projectKey": "your-project-key"
+  },
+  "sonarlint.workspaceFolderSettings": {
+    "your-workspace-folder-name": {
+      "sonarlint.rules": {
+        "javascript:S112": {
+          "level": "off"
+        },
+        "javascript:S113": {
+          "level": "on",
+          "parameters": {
+            "maximum": 80
+          }
+        }
+      },
+      "sonarlint.exclude": [
+        "**/node_modules/**",
+        "**/dist/**"
+      ]
+    }
   }
-]
-
-"sonarlint.connectedMode.project": {
-  "projectKey": "your-project-key"
 }
