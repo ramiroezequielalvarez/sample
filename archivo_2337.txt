@@ -1,1 +1,6 @@
-The Black-Scholes parameters 'underlying asset volatility' and 'risk-free rate' are the most difficult to estimate and significantly affect the model's outcome. (For example, Japan raised its interest rate, and the market fell sharply
+"sonarlint.connectedMode.connections.sonarqube": [
+  {
+    "serverUrl": "http://your-sonarqube-server-url",
+    "token": "your-sonarqube-token"
+  }
+]
