@@ -1,5 +1,12 @@
-git log --numstat --pretty="%an" | grep -v "^$" | awk '{if(NF==3) {a[$1]+=$1} else {b[$1]+=$1}} END{for(i in a) {print i, a[i], b[i]}}'
-
-git log --author='Author Name' --pretty=tformat: --numstat <rama>
-
-git ls-tree -r master --name-only | xargs -I {} git blame --line-porcelain {} | sed -n 's/^author //p' | sort | uniq -c | sort -rn
+git log --shortstat | grep -E "(Author: )(\b\s*([A-Z]\w+)){2}|fil(e|es) changed" | awk '
+{
+ if($1 ~ /Author/) {
+  author = $2" "$3
+ } else {
+  files[author]+=$1
+  inserted[author]+=$4
+  deleted[author]+=$6
+ }
+}
+END { for (key in files) { print "Author: " key "\n\tfiles changed: ", files[key], "\n\tlines inserted: ", inserted[key], "\n\tlines deleted: ", deleted[key] } }
+'
