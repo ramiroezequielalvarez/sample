@@ -1,15 +1,15 @@
-git log --shortstat | grep -E "(Author: )(\b\s*([A-Z]\w+)){2}|fil(e|es) changed" | awk '
-{
- if($1 ~ /Author/) {
-  author = $2" "$3
- } else {
-  files[author]+=$1
-  inserted[author]+=$4
-  deleted[author]+=$6
- }
+// Generar un nombre aleatorio de 5 caracteres
+function generateRandomName(length) {
+    let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
 }
-END { for (key in files) { print "Author: " key "\n\tfiles changed: ", files[key], "\n\tlines inserted: ", inserted[key], "\n\tlines deleted: ", deleted[key] } }
-'
 
-pg_dump -U usuario -d mi_base_de_datos --exclude-table=public.ventas -f backup.sql
-"
+// Asignar el valor a una variable global o local
+let randomName = generateRandomName(5);
+
+// Guardar la variable
+pm.environment.set("randomName", randomName); // O usa pm.globals.set si es global
