@@ -1,15 +1,15 @@
-// Generar un nombre aleatorio de 5 caracteres
-function generateRandomName(length) {
-    let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-    let result = '';
-    for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
-    return result;
-}
+Responsibility for Validation:
 
-// Asignar el valor a una variable global o local
-let randomName = generateRandomName(5);
+Frontend (Angular): Initial validation should be done on the client to enhance user experience and prevent unnecessary uploads.
 
-// Guardar la variable
-pm.environment.set("randomName", randomName); // O usa pm.globals.set si es global
+Eg. const allowedTypes = ['application/xls']; + 
+
+Backend (C#): The primary responsibility lies with the server to enforce strict file upload restrictions because client-side validations can be bypassed by attackers.
+
+Eg. var allowedTypes = new[] { "application/xls" } + long maxSizeInBytes = 2 * 1024 * 1024;
+
+> AV? Install bucketAV powered by ClamAV in just 15 minutes and detect malware like viruses
+
+Then .. Rename Files:
+
+Then .. Avoid Path Traversal:
