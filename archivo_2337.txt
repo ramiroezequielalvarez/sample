@@ -1,15 +1,1 @@
-Responsibility for Validation:
-
-Frontend (Angular): Initial validation should be done on the client to enhance user experience and prevent unnecessary uploads.
-
-Eg. const allowedTypes = ['application/xls']; + 
-
-Backend (C#): The primary responsibility lies with the server to enforce strict file upload restrictions because client-side validations can be bypassed by attackers.
-
-Eg. var allowedTypes = new[] { "application/xls" } + long maxSizeInBytes = 2 * 1024 * 1024;
-
-> AV? Install bucketAV powered by ClamAV in just 15 minutes and detect malware like viruses
-
-Then .. Rename Files:
-
-Then .. Avoid Path Traversal:
+https://aws.amazon.com/marketplace/pp/prodview-sykoblbsdgw2o
