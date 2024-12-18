@@ -38,3 +38,12 @@ export function checkOverlap(
 
   return isOverlap;
 }
+
+
+
+
+clientSolutions = [
+  { StartDate: "2020", EndDate: "2023", CashflowGroupCode: "AA" },
+  { StartDate: "2021", EndDate: "2024", CashflowGroupCode: "BB" },
+  { StartDate: "2022", EndDate: "2024", CashflowGroupCode: "AA" },
+];
