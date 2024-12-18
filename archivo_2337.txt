@@ -9,9 +9,8 @@ export function checkOverlap(
 
   const cashflowGroups = groupBy(clientSolutions, (cs) => cs.CashflowGroupCode);
 
-  for (const groupCode in cashflowGroups) {
-    if (!cashflowGroups.hasOwnProperty(groupCode)) continue;
-
+  // Iterar sobre las claves sin usar hasOwnProperty
+  Object.keys(cashflowGroups).forEach((groupCode) => {
     const solutions = cashflowGroups[groupCode];
 
     for (const cs of solutions) {
@@ -30,11 +29,10 @@ export function checkOverlap(
       // Comprobación de solapamiento
       if (!(endDateNew < csStartDate || startDate > csEndDate)) {
         isOverlap = true;
-        break;
+        return; // Salir del bucle interno
       }
     }
-    if (isOverlap) break; // Detener verificación si ya hay solapamiento
-  }
+  });
 
   return isOverlap;
 }
@@ -43,10 +41,11 @@ export function checkOverlap(
 function groupBy<T>(array: T[], keyGetter: (item: T) => string): { [key: string]: T[] } {
   return array.reduce((result, current) => {
     const key = keyGetter(current);
-    if (!result[key]) {
-      result[key] = [];
+    if (Object.hasOwn(result, key)) {
+      result[key].push(current);
+    } else {
+      result[key] = [current];
     }
-    result[key].push(current);
     return result;
   }, {} as { [key: string]: T[] });
 }
