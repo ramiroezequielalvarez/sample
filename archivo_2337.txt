@@ -1,51 +1,40 @@
 export function checkOverlap(
   startDate: Date,
   endDate: Date | null,
-  clientSolutions: SolutionViewModel[],
+  clientSolutions: ISolutionGroupCashflowViewModel[],
   currentStartDate: Date | null,
   operationType: Operation,
+  cashflowGroupCode: string // Nuevo parámetro para comparar el código del grupo
 ): boolean {
   let isOverlap = false;
 
-  const cashflowGroups = groupBy(clientSolutions, (cs) => cs.CashflowGroupCode);
+  for (const cs of clientSolutions) {
+    const csStartDate = new Date(cs.StartDate);
+    const csEndDate = cs.EndDate ? new Date(cs.EndDate) : new Date(Infinity);
+    const endDateNew = endDate ? endDate : new Date(Infinity);
 
-  // Iterar sobre las claves sin usar hasOwnProperty
-  Object.keys(cashflowGroups).forEach((groupCode) => {
-    const solutions = cashflowGroups[groupCode];
-
-    for (const cs of solutions) {
-      const csStartDate = new Date(cs.StartDate);
-      const csEndDate = cs.EndDate ? new Date(cs.EndDate) : new Date(Infinity);
-      const endDateNew = endDate ? new Date(endDate) : new Date(Infinity);
-
-      if (
-        currentStartDate &&
-        csStartDate.getTime() === currentStartDate.getTime() &&
-        operationType === Operation.Update
-      ) {
-        continue;
-      }
-
-      // Comprobación de solapamiento
-      if (!(endDateNew < csStartDate || startDate > csEndDate)) {
-        isOverlap = true;
-        return; // Salir del bucle interno
-      }
+    // Verifica si estamos actualizando la misma fecha
+    if (
+      currentStartDate &&
+      csStartDate.getTime() === currentStartDate.getTime() &&
+      operationType === Operation.Update
+    ) {
+      continue;
     }
-  });
+
+    // Nueva condición: Verifica también el CashflowsGroupCode
+    if (cs.CashflowGroupCode !== cashflowGroupCode) {
+      continue; // Salta si los códigos de grupo son diferentes
+    }
+
+    // Verificación del overlap con el mismo CashflowsGroupCode
+    if (endDateNew < csStartDate || startDate > csEndDate) {
+      continue; // No hay overlap
+    }
+
+    isOverlap = true; // Si llegamos aquí, hay un overlap
+    break;
+  }
 
   return isOverlap;
-}
-
-// Función auxiliar para agrupar por un campo específico
-function groupBy<T>(array: T[], keyGetter: (item: T) => string): { [key: string]: T[] } {
-  return array.reduce((result, current) => {
-    const key = keyGetter(current);
-    if (Object.hasOwn(result, key)) {
-      result[key].push(current);
-    } else {
-      result[key] = [current];
-    }
-    return result;
-  }, {} as { [key: string]: T[] });
 }
