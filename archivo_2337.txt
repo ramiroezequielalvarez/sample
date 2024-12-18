@@ -1,1 +1,52 @@
-https://aws.amazon.com/marketplace/pp/prodview-sykoblbsdgw2o
+export function checkOverlap(
+  startDate: Date,
+  endDate: Date | null,
+  clientSolutions: SolutionViewModel[],
+  currentStartDate: Date | null,
+  operationType: Operation,
+): boolean {
+  let isOverlap = false;
+
+  const cashflowGroups = groupBy(clientSolutions, (cs) => cs.CashflowGroupCode);
+
+  for (const groupCode in cashflowGroups) {
+    if (!cashflowGroups.hasOwnProperty(groupCode)) continue;
+
+    const solutions = cashflowGroups[groupCode];
+
+    for (const cs of solutions) {
+      const csStartDate = new Date(cs.StartDate);
+      const csEndDate = cs.EndDate ? new Date(cs.EndDate) : new Date(Infinity);
+      const endDateNew = endDate ? new Date(endDate) : new Date(Infinity);
+
+      if (
+        currentStartDate &&
+        csStartDate.getTime() === currentStartDate.getTime() &&
+        operationType === Operation.Update
+      ) {
+        continue;
+      }
+
+      // Comprobación de solapamiento
+      if (!(endDateNew < csStartDate || startDate > csEndDate)) {
+        isOverlap = true;
+        break;
+      }
+    }
+    if (isOverlap) break; // Detener verificación si ya hay solapamiento
+  }
+
+  return isOverlap;
+}
+
+// Función auxiliar para agrupar por un campo específico
+function groupBy<T>(array: T[], keyGetter: (item: T) => string): { [key: string]: T[] } {
+  return array.reduce((result, current) => {
+    const key = keyGetter(current);
+    if (!result[key]) {
+      result[key] = [];
+    }
+    result[key].push(current);
+    return result;
+  }, {} as { [key: string]: T[] });
+}
