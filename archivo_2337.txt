@@ -1,3 +1,6 @@
+git show -s --format="%H %s %ad" e5f1d98f
+
+
 export function checkOverlap(
   startDate: Date,
   endDate: Date | null,
