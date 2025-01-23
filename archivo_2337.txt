@@ -1,17 +1,7 @@
-
-this.solutionGroupingHeaderLoaded$
-  .pipe(
-    filter(loaded => loaded), // Continuar solo si `loaded` es true
-    switchMap(() => this.solutionGroupingHeader$) // Cancelar suscripciones anteriores
-  )
-  .subscribe(solutionGroupHeader => {
-    this.curvesFacade.loadClientCurves(solutionGroupHeader.ClientEntityId);
-    this.solutionGroupHeader$.next(solutionGroupHeader);
-    console.log('SG HEADER', solutionGroupHeader);
+ngOnDestroy(): void {
+  this.subscriptions.forEach((s, index) => {
+    console.log(`Unsubscribing from subscription ${index}:`, s); // Agregar un log para cada desuscripción
+    s.unsubscribe();
   });
-####################################################
-fixed and deployed to uat:
- - duplicate header for sg
- - curve approval from outstanding approval
-
-tomorrow: fix termination date for LCG when disassociated. that case was not updated, I use the concept of active-flag and not dates ranges. Tomorrow I will fix it.
+  console.log('All subscriptions have been unsubscribed.'); // Mensaje al final
+}
