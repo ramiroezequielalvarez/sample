@@ -9,3 +9,9 @@ this.solutionGroupingHeaderLoaded$
     this.solutionGroupHeader$.next(solutionGroupHeader);
     console.log('SG HEADER', solutionGroupHeader);
   });
+####################################################
+fixed and deployed to uat:
+ - duplicate header for sg
+ - curve approval from outstanding approval
+
+tomorrow: fix termination date for LCG when disassociated. that case was not updated, I use the concept of active-flag and not dates ranges. Tomorrow I will fix it.
