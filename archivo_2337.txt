@@ -1,1 +1,11 @@
 
+this.solutionGroupingHeaderLoaded$
+  .pipe(
+    filter(loaded => loaded), // Continuar solo si `loaded` es true
+    switchMap(() => this.solutionGroupingHeader$) // Cancelar suscripciones anteriores
+  )
+  .subscribe(solutionGroupHeader => {
+    this.curvesFacade.loadClientCurves(solutionGroupHeader.ClientEntityId);
+    this.solutionGroupHeader$.next(solutionGroupHeader);
+    console.log('SG HEADER', solutionGroupHeader);
+  });
