@@ -5,3 +5,54 @@ ngOnDestroy(): void {
   });
   console.log('All subscriptions have been unsubscribed.'); // Mensaje al final
 }
+subscribe(): void {
+  // solutionGroupingDetail$
+  this.subscriptions.push(
+    this.solutionGroupingDetailLoaded$
+      .pipe(
+        filter(loaded => loaded), // Continuar solo si loaded es true
+        switchMap(() => this.solutionGroupingDetail$) // Cancelar suscripciones anteriores
+      )
+      .subscribe(solutionGroupDetail => {
+        this.solutionGroupDetails$.next(solutionGroupDetail);
+      })
+  );
+
+  // solutionGroupingHeader$
+  this.subscriptions.push(
+    this.solutionGroupingHeaderLoaded$
+      .pipe(
+        filter(loaded => loaded), // Continuar solo si loaded es true
+        switchMap(() => this.solutionGroupingHeader$) // Cancelar suscripciones anteriores
+      )
+      .subscribe(solutionGroupHeader => {
+        this.curvesFacade.loadClientCurves(solutionGroupHeader.ClientEntityId);
+        this.solutionGroupHeader$.next(solutionGroupHeader);
+        console.log('SG HEADER', solutionGroupHeader);
+      })
+  );
+
+  // solutionGroupingCashFlow$
+  this.subscriptions.push(
+    this.solutionGroupingCashFlowLoaded$
+      .pipe(
+        filter(loaded => loaded), // Continuar solo si loaded es true
+        switchMap(() => this.solutionGroupingCashFlow$) // Cancelar suscripciones anteriores
+      )
+      .subscribe(solutionGroupCashFlow => {
+        this.solutionGroupCashFlow$.next(solutionGroupCashFlow);
+      })
+  );
+
+  // solutionGroupingExternalManager$
+  this.subscriptions.push(
+    this.solutionGroupingExternalManagersLoaded$
+      .pipe(
+        filter(loaded => loaded), // Continuar solo si loaded es true
+        switchMap(() => this.solutionGroupingExternalManager$) // Cancelar suscripciones anteriores
+      )
+      .subscribe(solutionGroupExternalManager => {
+        this.solutionGroupExternalManagers$.next(solutionGroupExternalManager);
+      })
+  );
+}
