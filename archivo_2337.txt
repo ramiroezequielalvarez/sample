@@ -1,3 +1,5 @@
+https://www.lazyportfolioetf.com/world-country-indexes-returns/
+
 var clientSolutions = new SqlKata.Query("LiabilityCashflowClientSolutions")
     .WhereTrue("LiabilityCashflowClientSolutions.Active")
     .Where(q => q
