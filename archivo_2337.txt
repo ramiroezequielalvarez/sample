@@ -1,3 +1,21 @@
+SELECT DISTINCT
+    "LiabilityCashflowClientSolutions"."LiabilityCashflowGroupId" AS "ClientSolutionCashflowGroup",
+    "LiabilityCashflowClientSolutions"."Active" AS "ClientSolutionCashflowGroupActive"
+FROM
+    "LiabilityCashflowClientSolutions"
+JOIN
+    "LiabilityCashflowGroups"
+ON
+    "LiabilityCashflowGroups"."Id" = "LiabilityCashflowClientSolutions"."LiabilityCashflowGroupId"
+WHERE
+    "LiabilityCashflowClientSolutions"."Active" = TRUE
+    AND (
+        "LiabilityCashflowClientSolutions"."EndDate" IS NULL
+        OR "LiabilityCashflowClientSolutions"."EndDate" > CURRENT_DATE
+    )
+    AND "LiabilityCashflowGroups"."Code" = :code;
+
+
 
         .OrWhereRaw("DATE(\"ExternalManagerClientSolutions\".\"EndDate\") > ?", DateTime.UtcNow.Date) // Trunca la fecha en SQL
 
