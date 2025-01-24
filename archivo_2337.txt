@@ -1,5 +1,7 @@
 https://www.lazyportfolioetf.com/world-country-indexes-returns/
 
+As I said, there are people who can make a lot of money and others who cannot. The Argentine market delivered a +26.95% annualized return over 5 years, which translates to over +250% (in USD). The initial investment grew by 3.5 times in just 5 years.
+
 var clientSolutions = new SqlKata.Query("LiabilityCashflowClientSolutions")
     .WhereTrue("LiabilityCashflowClientSolutions.Active")
     .Where(q => q
