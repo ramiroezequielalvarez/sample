@@ -1,3 +1,33 @@
+SELECT DISTINCT
+    cs.*
+FROM
+    "ClientSolutions" AS cs
+JOIN
+    "LiabilityCashflowClientSolutions" AS lccs
+ON
+    cs."EntityId" = lccs."ClientSolutionId"
+JOIN
+    "LiabilityCashflowGroups" AS lcg
+ON
+    lccs."LiabilityCashflowGroupId" = lcg."Id"
+WHERE
+    lcg."LiabilityCashflowGroupCode" = :liabilityCashflowGroupCode
+    AND cs."IsDeleted" = FALSE
+    AND cs."Status" = 'Active'
+    AND lccs."StartDate" <= CURRENT_DATE
+    AND (
+        lccs."EndDate" IS NULL 
+        OR lccs."EndDate" >= CURRENT_DATE
+    )
+    AND lcg."ImplementationDate" <= CURRENT_DATE
+    AND (
+        lcg."TerminationDate" IS NULL 
+        OR lcg."TerminationDate" >= CURRENT_DATE
+    );
+
+
+
+
 https://www.lazyportfolioetf.com/world-country-indexes-returns/
 
 As I said, there are people who can make a lot of money and others who cannot. The Argentine market delivered a +26.95% annualized return over 5 years, which translates to over +250% (in USD). The initial investment grew by 3.5 times in just 5 years.
