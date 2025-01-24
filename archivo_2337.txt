@@ -1,3 +1,31 @@
+var clientSolutions = new SqlKata.Query("LiabilityCashflowClientSolutions")
+    .WhereTrue("LiabilityCashflowClientSolutions.Active")
+    .Where(q => q
+        .WhereNull("LiabilityCashflowClientSolutions.EndDate")
+        .OrWhere("LiabilityCashflowClientSolutions.EndDate", ">", DateTime.UtcNow.Date)
+    )
+    .Select(
+        "LiabilityCashflowClientSolutions.LiabilityCashflowGroupId as ClientSolutionCashflowGroup",
+        "LiabilityCashflowClientSolutions.Active as ClientSolutionCashflowGroupActive",
+        "ClientSolutions.Name as ClientSolutionName"
+    )
+    .Join(
+        "LiabilityCashflowGroups", 
+        "LiabilityCashflowGroups.Id", 
+        "LiabilityCashflowClientSolutions.LiabilityCashflowGroupId"
+    )
+    .LeftJoin(
+        "ClientSolutions", 
+        "ClientSolutions.EntityId", 
+        "LiabilityCashflowClientSolutions.ClientSolutionId"
+    )
+    .Where("LiabilityCashflowGroups.Code", "=", "LCFG-LCG4")
+    .Distinct();
+
+
+
+
+
 SELECT DISTINCT
     "LiabilityCashflowClientSolutions"."LiabilityCashflowGroupId" AS "ClientSolutionCashflowGroup",
     "LiabilityCashflowClientSolutions"."Active" AS "ClientSolutionCashflowGroupActive"
