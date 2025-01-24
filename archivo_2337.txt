@@ -1,3 +1,18 @@
+SELECT DISTINCT
+    "ExternalManagerClientSolutions"."ExternalManagerConfigId" AS "ClientSolutionManagerConfig",
+    "ExternalManagerClientSolutions"."Active" AS "ClientSolutionManagerConfigActive"
+FROM
+    "ExternalManagerClientSolutions"
+JOIN
+    "ExternalManagerConfigs"
+ON
+    "ExternalManagerClientSolutions"."ExternalManagerConfigId" = "ExternalManagerConfigs"."Id"
+WHERE
+    "ExternalManagerClientSolutions"."Active" = TRUE;
+
+
+
+
 ngOnDestroy(): void {
   this.subscriptions.forEach((s, index) => {
     console.log(`Unsubscribing from subscription ${index}:`, s); // Agregar un log para cada desuscripción
