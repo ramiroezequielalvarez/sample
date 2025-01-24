@@ -1,4 +1,7 @@
 
+        .OrWhereRaw("DATE(\"ExternalManagerClientSolutions\".\"EndDate\") > ?", DateTime.UtcNow.Date) // Trunca la fecha en SQL
+
+
     .WhereTrue("ExternalManagerClientSolutions.Active")
     .Where(q => q
         .WhereNull("ExternalManagerClientSolutions.EndDate") // Condición para EndDate = NULL
