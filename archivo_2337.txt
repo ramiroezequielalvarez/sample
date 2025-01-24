@@ -4,6 +4,22 @@
         .WhereNull("ExternalManagerClientSolutions.EndDate") // Condición para EndDate = NULL
         .OrWhere("ExternalManagerClientSolutions.EndDate", ">", DateTime.UtcNow.Date)
 
+SELECT DISTINCT
+    "ExternalManagerClientSolutions"."ExternalManagerConfigId" AS "ClientSolutionManagerConfig",
+    "ExternalManagerClientSolutions"."Active" AS "ClientSolutionManagerConfigActive"
+FROM
+    "ExternalManagerClientSolutions"
+JOIN
+    "ExternalManagerConfigs"
+ON
+    "ExternalManagerClientSolutions"."ExternalManagerConfigId" = "ExternalManagerConfigs"."Id"
+WHERE
+    "ExternalManagerClientSolutions"."Active" = TRUE
+    AND (
+        "ExternalManagerClientSolutions"."EndDate" IS NULL
+        OR "ExternalManagerClientSolutions"."EndDate" > CURRENT_DATE
+    );
+
 
 SELECT DISTINCT
     "ExternalManagerClientSolutions"."ExternalManagerConfigId" AS "ClientSolutionManagerConfig",
