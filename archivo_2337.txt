@@ -1,13 +1,51 @@
-    .GroupBy(
-        "LiabilityCashflowGroups.Id",
-        "LiabilityCashflowGroups.Code",
-        "LiabilityCashflowGroups.Name",
-        "LiabilityCashflowGroups.Currency",
-        "LiabilityCashflowGroups.ImplementationDate",
-        "LiabilityCashflowGroups.TerminationDate",
-        "LiabilityCashflowGroups.Comment",
-        "LiabilityCashflowGroups.ExpectedUpdateFrequency",
-        "LiabilityCashflowGroups.NumberOfMonthsToAllocate",
-        "LiabilityCashflowGroups.ProRataPercentage",
-        "ClientSolutions.ClientSolutionName"
+SELECT 
+    lcg."Code",
+    lcg."Name",
+    lcg."ClientId",
+    lcg."Currency",
+    lcg."PensionScheme",
+    lcg."CashBalanceInflatingMethodology",
+    lcg."ClientCurveGroupId",
+    lcg."ImplementationDate",
+    lcg."TerminationDate",
+    lcg."Comment",
+    lcg."ExpectedUpdateFrequency",
+    lcg."NumberOfMonthsToAllocate",
+    lcg."ProRataPercentage",
+    lccs."Active" AS "HasSolutionGroupAssociated",
+    MIN(cs."Name") AS "ClientSolutionName" -- Usa MIN o MAX para evitar duplicados
+FROM 
+    "LiabilityCashflowGroups" AS lcg
+LEFT JOIN 
+    "LiabilityCashflowClientSolutions" AS lccs
+ON 
+    lccs."LiabilityCashflowGroupId" = lcg."Id"
+LEFT JOIN 
+    "ClientSolutions" AS cs
+ON 
+    cs."EntityId" = lccs."ClientSolutionId"
+WHERE 
+    lcg."ClientId" = 'CLI-ADVCHPNP001' 
+    AND lccs."Active" = TRUE 
+    AND (
+        lccs."EndDate" IS NULL OR 
+        lccs."EndDate" > CURRENT_DATE
     )
+    AND lcg."IsDeleted" = FALSE
+GROUP BY 
+    lcg."Code",
+    lcg."Name",
+    lcg."ClientId",
+    lcg."Currency",
+    lcg."PensionScheme",
+    lcg."CashBalanceInflatingMethodology",
+    lcg."ClientCurveGroupId",
+    lcg."ImplementationDate",
+    lcg."TerminationDate",
+    lcg."Comment",
+    lcg."ExpectedUpdateFrequency",
+    lcg."NumberOfMonthsToAllocate",
+    lcg."ProRataPercentage",
+    lccs."Active"
+ORDER BY 
+    lcg."Name";
