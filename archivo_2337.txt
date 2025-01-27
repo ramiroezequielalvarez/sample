@@ -1,51 +1,24 @@
-SELECT 
-    lcg."Code",
-    lcg."Name",
-    lcg."ClientId",
-    lcg."Currency",
-    lcg."PensionScheme",
-    lcg."CashBalanceInflatingMethodology",
-    lcg."ClientCurveGroupId",
-    lcg."ImplementationDate",
-    lcg."TerminationDate",
-    lcg."Comment",
-    lcg."ExpectedUpdateFrequency",
-    lcg."NumberOfMonthsToAllocate",
-    lcg."ProRataPercentage",
-    lccs."Active" AS "HasSolutionGroupAssociated",
-    MIN(cs."Name") AS "ClientSolutionName" -- Usa MIN o MAX para evitar duplicados
-FROM 
-    "LiabilityCashflowGroups" AS lcg
-LEFT JOIN 
-    "LiabilityCashflowClientSolutions" AS lccs
-ON 
-    lccs."LiabilityCashflowGroupId" = lcg."Id"
-LEFT JOIN 
-    "ClientSolutions" AS cs
-ON 
-    cs."EntityId" = lccs."ClientSolutionId"
-WHERE 
-    lcg."ClientId" = 'CLI-ADVCHPNP001' 
-    AND lccs."Active" = TRUE 
-    AND (
-        lccs."EndDate" IS NULL OR 
-        lccs."EndDate" > CURRENT_DATE
+var clientSolutions = new SqlKata.Query("LiabilityCashflowClientSolutions")
+    .WhereTrue("LiabilityCashflowClientSolutions.Active")
+    .Where(q => q
+        .WhereNull("LiabilityCashflowClientSolutions.EndDate")
+        .OrWhere("LiabilityCashflowClientSolutions.EndDate", ">", DateTime.UtcNow.AddDays(1).Date))
+    .Select(
+        "LiabilityCashflowClientSolutions.LiabilityCashflowGroupId as ClientSolutionCashflowGroup",
+        "LiabilityCashflowClientSolutions.Active as ClientSolutionCashflowGroupActive",
+        "ClientSolutions.Name as ClientSolutionName"
     )
-    AND lcg."IsDeleted" = FALSE
-GROUP BY 
-    lcg."Code",
-    lcg."Name",
-    lcg."ClientId",
-    lcg."Currency",
-    lcg."PensionScheme",
-    lcg."CashBalanceInflatingMethodology",
-    lcg."ClientCurveGroupId",
-    lcg."ImplementationDate",
-    lcg."TerminationDate",
-    lcg."Comment",
-    lcg."ExpectedUpdateFrequency",
-    lcg."NumberOfMonthsToAllocate",
-    lcg."ProRataPercentage",
-    lccs."Active"
-ORDER BY 
-    lcg."Name";
+    .Join(
+        "LiabilityCashflowGroups",
+        "LiabilityCashflowGroups.Id",
+        "LiabilityCashflowClientSolutions.LiabilityCashflowGroupId"
+    )
+    .LeftJoin(
+        "ClientSolutions",
+        "ClientSolutions.EntityId",
+        "LiabilityCashflowClientSolutions.ClientSolutionId"
+    )
+    .Where("LiabilityCashflowGroups.ClientId", "=", clientId)
+    .GroupBy("LiabilityCashflowClientSolutions.LiabilityCashflowGroupId") // Agrupar para evitar duplicados
+    .SelectRaw("MIN(LiabilityCashflowClientSolutions.Id) as MinId") // Selecciona solo la fila con el ID mínimo
+    .Distinct();
