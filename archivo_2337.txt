@@ -3,22 +3,23 @@ var clientSolutions = new SqlKata.Query("LiabilityCashflowClientSolutions")
     .Where(q => q
         .WhereNull("LiabilityCashflowClientSolutions.EndDate")
         .OrWhere("LiabilityCashflowClientSolutions.EndDate", ">", DateTime.UtcNow.AddDays(1).Date))
-    .Select(
-        "LiabilityCashflowClientSolutions.LiabilityCashflowGroupId as ClientSolutionCashflowGroup",
-        "LiabilityCashflowClientSolutions.Active as ClientSolutionCashflowGroupActive",
-        "ClientSolutions.Name as ClientSolutionName"
-    )
     .Join(
-        "LiabilityCashflowGroups",
-        "LiabilityCashflowGroups.Id",
+        "LiabilityCashflowGroups", 
+        "LiabilityCashflowGroups.Id", 
         "LiabilityCashflowClientSolutions.LiabilityCashflowGroupId"
     )
     .LeftJoin(
-        "ClientSolutions",
-        "ClientSolutions.EntityId",
+        "ClientSolutions", 
+        "ClientSolutions.EntityId", 
         "LiabilityCashflowClientSolutions.ClientSolutionId"
     )
     .Where("LiabilityCashflowGroups.ClientId", "=", clientId)
-    .GroupBy("LiabilityCashflowClientSolutions.LiabilityCashflowGroupId") // Agrupar para evitar duplicados
-    .SelectRaw("MIN(LiabilityCashflowClientSolutions.Id) as MinId") // Selecciona solo la fila con el ID mínimo
+    .GroupBy("LiabilityCashflowClientSolutions.LiabilityCashflowGroupId") // Agrupa por GroupId
+    .Select(
+        "LiabilityCashflowClientSolutions.LiabilityCashflowGroupId",
+        "LiabilityCashflowGroups.ClientId",
+        "ClientSolutions.Name as ClientSolutionName",
+        "LiabilityCashflowClientSolutions.Active"
+    )
+    .SelectRaw("MIN(LiabilityCashflowClientSolutions.Id) as MinId") // Selecciona solo el Id mínimo
     .Distinct();
