@@ -97,3 +97,51 @@ var tasks = clientSolutions.Select(item =>
 
 // Ejecuta todas las tareas en paralelo
 await Task.WhenAll(tasks);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    int? externalManagerConfigId = notification.ExternalManagerConfigId;
+    if (!externalManagerConfigId.HasValue)
+        return;
+
+    var externalManagerConfig = await _externalManagerConfigRepository
+        .GetClientSolutionsByIdAsync(externalManagerConfigId.Value);
+
+    if (!externalManagerConfig.ExternalManagerClientSolutions.Any())
+        return;
+
+    var tasks = externalManagerConfig.ExternalManagerClientSolutions
+        .Select(item =>
+        {
+            var payload = JsonConvert.SerializeObject(new
+            {
+                notification.ExternalManagerCode,
+                item.ClientSolutionId,
+                item.StartDate,
+                item.EndDate
+            });
+
+            var outboxMessage = new OutboxMessage(
+                DestinationType.Internal,
+                MessageType.ExternalManagerClientSolution,
+                payload,
+                ExternalManagersConstants.DefaultVersion,
+                ExternalManagersConstants.DefaultMessageGroupId
+            );
+
+            return _externalManagerDataDistributionRequestService
+                .QueueDataDistributionRequest(outboxMessage, cancellationToken);
+        });
+
+    await Task.WhenAll(tasks);
