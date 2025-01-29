@@ -36,3 +36,10 @@ LEFT JOIN externalmgr."ExternalManagerClientSolutions" emcs
     ON emcs."ExternalManagerConfigId" = emc."id"
 GROUP BY emc.id
 ORDER BY emc.id;
+
+
+Send the entire payload and the array of EMClientSolutionsAssociations in the "ExternalManagerConfiguration" message.
+
+Once BMK and ALPHA consume the "ExternalManagerConfiguration" message, perform an internal publish by iterating over the array of EMClientSolutionsAssociations so that the "ExternalManagerClientSolution" message is self-consumed.
+
+And the same for Cashflows. The goal is that always EMClientSolutionsAssociations proceeds before ExternalManagerClientSolution
