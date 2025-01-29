@@ -43,3 +43,13 @@ Send the entire payload and the array of EMClientSolutionsAssociations in the "E
 Once BMK and ALPHA consume the "ExternalManagerConfiguration" message, perform an internal publish by iterating over the array of EMClientSolutionsAssociations so that the "ExternalManagerClientSolution" message is self-consumed.
 
 And the same for Cashflows. The goal is that always EMClientSolutionsAssociations proceeds before ExternalManagerClientSolution
+
+
+public async Task<ExternalManagerConfig> GetClientSolutionsByIdAsync(int Id)
+{
+    var query = _dbContext.ExternalManagerConfigs
+        .AsNoTracking()  // Agregar AsNoTracking para mejorar rendimiento en lectura
+        .Include(emc => emc.ExternalManagerClientSolutions);
+
+    return await query.SingleOrDefaultAsync(emc => emc.Id == Id);
+}
