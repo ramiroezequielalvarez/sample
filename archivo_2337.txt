@@ -15,3 +15,24 @@ LEFT JOIN externalmgr."ExternalManagers" em
     ON em."ExternalManagerConfigId" = emc."id"
 GROUP BY emc.id
 ORDER BY emc.id;
+
+
+
+SELECT 
+    emc.id AS ExternalManagerConfigId,
+    COUNT(emcs.id) AS ClientSolutionsCount
+FROM externalmgr."ExternalManagerConfigs" emc
+LEFT JOIN externalmgr."ExternalManagerClientSolutions" emcs 
+    ON emcs."ExternalManagerConfigId" = emc."id"
+GROUP BY emc.id
+ORDER BY ClientSolutionsCount DESC;
+
+
+SELECT 
+    emc.id AS ExternalManagerConfigId,
+    STRING_AGG(emcs."ClientSolutionId"::TEXT, ', ') AS ClientSolutionGroups
+FROM externalmgr."ExternalManagerConfigs" emc
+LEFT JOIN externalmgr."ExternalManagerClientSolutions" emcs 
+    ON emcs."ExternalManagerConfigId" = emc."id"
+GROUP BY emc.id
+ORDER BY emc.id;
