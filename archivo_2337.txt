@@ -6,3 +6,12 @@ LEFT JOIN externalmgr."ExternalManagers" em
     ON em."ExternalManagerConfigId" = emc."id"
 GROUP BY emc.id
 ORDER BY ExternalManagersCount DESC;
+
+SELECT 
+    emc.id AS ExternalManagerConfigId,
+    STRING_AGG(em.id::TEXT, ', ') AS ExternalManagerIds
+FROM externalmgr."ExternalManagerConfigs" emc
+LEFT JOIN externalmgr."ExternalManagers" em 
+    ON em."ExternalManagerConfigId" = emc."id"
+GROUP BY emc.id
+ORDER BY emc.id;
