@@ -1,12 +1,13 @@
-var clientSolutions = new SqlKata.Query("LiabilityCashflowClientSolutions")
-    .WhereTrue("LiabilityCashflowClientSolutions.Active")
-    .Where(q => q
-        .WhereNull("LiabilityCashflowClientSolutions.EndDate")
-        .OrWhere("LiabilityCashflowClientSolutions.EndDate", ">", DateTime.UtcNow.AddDays(-1).Date))
-    .SelectRaw(@"
-        LiabilityCashflowClientSolutions.LiabilityCashflowGroupId AS ClientSolutionCashflowGroup,
-        LiabilityCashflowClientSolutions.Active AS ClientSolutionCashflowGroupActive,
-        STRING_AGG(ClientSolutions.Name, ', ') AS ClientSolutionName") // Concatenar nombres
-    .Join("LiabilityCashflowGroups", "LiabilityCashflowGroups.Id", "LiabilityCashflowClientSolutions.LiabilityCashflowGroupId")
-    .Where("LiabilityCashflowGroups.ClientId", "=", clientId)
-    .GroupBy("LiabilityCashflowClientSolutions.LiabilityCashflowGroupId");
+0- Only a Quant or Admin will have the "New CIB" button visible, which opens the form to load the configuration.
+1- Effective Date is a required field (a calendar should be displayed).
+2- The Effective Date calendar should only allow selecting business days (Monday to Friday).
+3- A Quant role can select an Effective Date from one business day prior onwards → (Is this correct? Or should it start from "today"?)
+4- An Admin role can select any business day.
+5- Build the "Cash" dropdown using the query service with a new endpoint to retrieve Levermap Cash.
+6- Set the default option to "US Treasury Bills 1-3 Month".
+7- Description is required, with "Default Configuration" as the default option.
+8- Only after the three fields are valid, the rest of the tabs should be enabled.
+9- The "Review Configuration" button should remain disabled.
+
+Questions:
+Should a new task be created for the new "Reset Configuration" functionality, using a new UI component that resets all configurations to their default values?
