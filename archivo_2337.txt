@@ -1,26 +1,25 @@
-foreach (var cs in clientCashFlowGroup.LiabilityCashflowClientSolutions)
+foreach (var cs in externalManagerConfig.ExternalManagerClientSolutions)
 {
     var payload = JsonConvert.SerializeObject(new
     {
-        notification.LiabilityCashflowGroupCode,
+        notification.ExternalManagerCode,
         cs.ClientSolutionId,
         cs.StartDate,
-        cs.EndDate,
-        notification.ClientCurveGroupId,
-        notification.ClientId,
-        notification.ImplementationDate,
-        notification.TerminationDate,
-        PensionScheme = notification.PensionScheme.ToString(),
+        cs.EndDate
     });
 
-    _logger.LogInformation($"Queuing Cashflow LiabilityCashflowClientSolution message for " +
-                          $"LiabilityCashflowGroupCode[{notification.LiabilityCashflowGroupCode}], " +
-                          $"StartDate[{cs.StartDate.ToShortDateString()}], " +
-                          $"ClientCurveGroupId[{notification.ClientCurveGroupId}]");
+    var outboxMessage = new OutboxMessage(
+        DestinationType.Internal,
+        MessageType.ExternalManagerClientSolution,
+        payload,
+        ExternalManagersConstants.DefaultVersion,
+        ExternalManagersConstants.DefaultMessageGroupId
+    );
 
-    await _cashFlowDataDistributionRequestService.QueueDataDistributionRequest(
-        payload, DestinationType.Internal, MessageType.LiabilityCashflowClientSolution, cancellationToken);
+    await _externalManagerDataDistributionRequestService.QueueDataDistributionRequest(
+        outboxMessage, cancellationToken);
 }
+
 
 
 foreach (var cs in clientCashFlowGroup.LiabilityCashflowClientSolutions)
