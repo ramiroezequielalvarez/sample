@@ -1,3 +1,28 @@
+foreach (var cs in clientCashFlowGroup.LiabilityCashflowClientSolutions)
+{
+    var payload = JsonConvert.SerializeObject(new
+    {
+        notification.LiabilityCashflowGroupCode,
+        cs.ClientSolutionId,
+        cs.StartDate,
+        cs.EndDate,
+        notification.ClientCurveGroupId,
+        notification.ClientId,
+        notification.ImplementationDate,
+        notification.TerminationDate,
+        PensionScheme = notification.PensionScheme.ToString(),
+    });
+
+    _logger.LogInformation($"Queuing Cashflow LiabilityCashflowClientSolution message for " +
+                          $"LiabilityCashflowGroupCode[{notification.LiabilityCashflowGroupCode}], " +
+                          $"StartDate[{cs.StartDate.ToShortDateString()}], " +
+                          $"ClientCurveGroupId[{notification.ClientCurveGroupId}]");
+
+    await _cashFlowDataDistributionRequestService.QueueDataDistributionRequest(
+        payload, DestinationType.Internal, MessageType.LiabilityCashflowClientSolution, cancellationToken);
+}
+
+
 SELECT 
     emc.id AS ExternalManagerConfigId,
     COUNT(em.id) AS ExternalManagersCount
