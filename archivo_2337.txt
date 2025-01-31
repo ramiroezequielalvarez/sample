@@ -1,3 +1,18 @@
+INSERT INTO liabilitybmk."ExternalManagerClientSolutions" 
+("ExternalManagerId", "ClientSolutionId", "StartDate", "EndDate")
+SELECT 
+    em."Id" AS "ExternalManagerId",
+    cs."EntityId" AS "ClientSolutionId",
+    emc."ImplementationDate" AS "StartDate",
+    emc."TerminationDate" AS "EndDate"
+FROM "ExternalManagers" AS em
+INNER JOIN "ExternalManagerConfigs" AS emc 
+    ON em."ExternalManagerConfigId" = emc."Id"
+INNER JOIN "ClientSolutions" AS cs 
+    ON cs."AmsId" = em."LegacySolutionId";
+
+
+
 foreach (var cs in externalManagerConfig.ExternalManagerClientSolutions)
 {
     var payload = JsonConvert.SerializeObject(new
