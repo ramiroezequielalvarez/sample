@@ -1,3 +1,12 @@
+  this.externalManagersConfigsFilteredData = this.externalManagersConfigsData?.filter(d =>
+    (
+      new Date(start) >= new Date(d.ImplementationDate) &&
+      (new Date(start) < new Date(d.TerminationDate) || d.TerminationDate == null)
+    ) || d.Code === currentCode // ← Asegura que el currentCode no sea eliminado
+  );
+
+
+
 private implementationDateFilter(date: moment.MomentInput | null): boolean {
   date = moment(date); // Asegurar que date sea un objeto moment válido
 
