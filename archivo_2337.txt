@@ -5,7 +5,7 @@
     ) || d.Code === currentCode // ← Asegura que el currentCode no sea eliminado
   );
 
-
+git log --reverse --format="%H %an <%ae>" --first-parent BRANCH_NAME
 
 private implementationDateFilter(date: moment.MomentInput | null): boolean {
   date = moment(date); // Asegurar que date sea un objeto moment válido
