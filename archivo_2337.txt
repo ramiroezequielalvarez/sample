@@ -1,3 +1,20 @@
+private implementationDateFilter(date: moment.MomentInput | null): boolean {
+  date = date ?? moment();
+  const isAdmin = this.sharedSecurityService.getRoleAccess().isActingAdminRole();
+
+  // Obtener el día hábil anterior
+  let startDate = moment().subtract(1, 'days');
+  while (startDate.isoWeekday() > 5) { // Si es sábado (6) o domingo (7), retroceder hasta el viernes (5)
+    startDate.subtract(1, 'days');
+  }
+
+  return moment(date).isoWeekday() >= 1 && moment(date).isoWeekday() <= 5 && moment(date).isSameOrAfter(startDate);
+}
+
+
+
+
+
 INSERT INTO liabilitybmk."ExternalManagerClientSolutions" 
 ("ExternalManagerId", "ClientSolutionId", "StartDate", "EndDate")
 SELECT 
