@@ -5,6 +5,10 @@
     ) || d.Code === currentCode // ← Asegura que el currentCode no sea eliminado
   );
 
+git for-each-ref --format='%(color:cyan)%(authordate:format:%m/%d/%Y %I:%M %p)    %(align:25,left)%(color:yellow)%(authorname)%(end) %(color:reset)%(refname:strip=3)' --sort=authordate refs/remotes
+
+
+
 git log --reverse --format="%H %an <%ae>" --first-parent BRANCH_NAME
 
 private implementationDateFilter(date: moment.MomentInput | null): boolean {
