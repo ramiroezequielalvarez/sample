@@ -1,14 +1,16 @@
 private implementationDateFilter(date: moment.MomentInput | null): boolean {
-  date = date ?? moment();
-  const isAdmin = this.sharedSecurityService.getRoleAccess().isActingAdminRole();
+  date = moment(date); // Asegurar que date sea un objeto moment válido
 
-  // Obtener el día hábil anterior
+  // Calcular el último día hábil anterior
   let startDate = moment().subtract(1, 'days');
-  while (startDate.isoWeekday() > 5) { // Si es sábado (6) o domingo (7), retroceder hasta el viernes (5)
+
+  // Si es sábado o domingo, retroceder hasta el último viernes
+  while (startDate.isoWeekday() > 5) { 
     startDate.subtract(1, 'days');
   }
 
-  return moment(date).isoWeekday() >= 1 && moment(date).isoWeekday() <= 5 && moment(date).isSameOrAfter(startDate);
+  // Permitir seleccionar fechas desde el último día hábil en adelante, solo días hábiles
+  return date.isoWeekday() >= 1 && date.isoWeekday() <= 5 && date.isSameOrAfter(startDate);
 }
 
 
