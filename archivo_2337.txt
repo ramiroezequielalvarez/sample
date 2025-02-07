@@ -13,3 +13,5 @@
 }
 
 [rebalanceForm]="cibConfigForm.get('SelectedRebalanceTriggers')"
+
+@Input() rebalanceForm!: FormGroup;
