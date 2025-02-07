@@ -11,3 +11,5 @@
     });
   }
 }
+
+[rebalanceForm]="cibConfigForm.get('SelectedRebalanceTriggers')"
