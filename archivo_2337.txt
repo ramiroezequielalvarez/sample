@@ -1,1 +1,3 @@
 <hr style="border: none; height: 1px; background-color: #ccc;" />
+
+<mat-checkbox [checked]="true">Sample</mat-checkbox>
