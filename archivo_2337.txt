@@ -17,6 +17,8 @@
 </div>
 
 
+This flow is correct: when an admin updates a row with status 'Rejected', it should change to 'Pending Approval'
+
 Bug 1: Add new checkbox field "Include COL in Liability Benchmark"
 Bug 2: The file upload error message overlaps the configuration review modal
 Bug 3: When Quant1 updates a configuration rejected by Quant2, it does not change to "Pending Approval"
