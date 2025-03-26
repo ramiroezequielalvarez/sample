@@ -55,3 +55,19 @@ this.cibConfigForm = this.fb.group({
 
 
 style="z-index: 2000; position: fixed;
+
+
+
+
+
+
+
+
+<div style="position: relative; z-index: 1;">
+  <form>
+    <!-- campos del formulario -->
+  </form>
+
+  <div 
+    style="margin-top: 12px; background-color: #f8d7da; color: #721c24; padding: 10px; border
+
