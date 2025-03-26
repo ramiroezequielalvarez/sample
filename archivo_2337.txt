@@ -15,3 +15,34 @@
 <div fxLayout="row wrap" fxLayoutGap="10px">
   <mat-checkbox fxFlex="25%">Include COL in Liability Benchmark</mat-checkbox>
 </div>
+
+
+
+
+
+this.cibConfigForm = this.fb.group({
+  // ... otros campos ...
+  SelectedRebalanceTriggers: this.fb.group({
+    cbClientCurveConfiguration: true,
+    // ...
+  }),
+  includeColInBenchmark: [true] // <-- agregado por fuera del grupo
+});
+
+
+<app-cib-rebalance-triggers
+  [rebalanceForm]="cibConfigForm.get('SelectedRebalanceTriggers')"
+  [includeColControl]="cibConfigForm.get('includeColInBenchmark')"
+  [cibSummaryCheckboxes]="cibSummaryCheckboxes">
+</app-cib-rebalance-triggers>
+
+
+
+@Input() rebalanceForm!: FormGroup;
+@Input() includeColControl!: FormControl;
+
+
+
+<mat-checkbox [formControl]="includeColControl">
+  Include COL in Liability Benchmark
+</mat-checkbox>
