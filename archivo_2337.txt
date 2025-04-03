@@ -1,3 +1,24 @@
+My idea is that we can start creating tasks in the UI to make progress even if the mockups are not yet finalized.
+
+From the UI side, my suggestion is to create stories for consulting curves, such as:
+
+Implement Redux pattern for the retrieval endpoint
+
+Implement Redux pattern for the persistence endpoint
+
+Then, once the mockup is completed, we can move forward with the typical integration stories, which would be:
+
+Create consultant
+
+Update consultant
+
+Delete consultant
+
+Approval flow
+
+Even though most of these endpoints already exist, it will be necessary to make some adjustments in the UI, since the files containing the code will be modified once the new mockup is ready.
+
+
 <hr style="border: none; height: 1px; background-color: #ccc;" />
 
 <mat-checkbox [checked]="true">Sample</mat-checkbox>
