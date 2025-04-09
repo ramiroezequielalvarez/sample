@@ -1,5 +1,10 @@
 My idea is that we can start creating tasks in the UI to make progress even if the mockups are not yet finalized.
 
+Is there a correlation between deploying all of Sigma’s services and SPY going up 10%?
+Asking for science.
+Should we deploy everything again tomorrow?
+
+
 From the UI side, my suggestion is to create stories for consulting curves, such as:
 
 Implement Redux pattern for the retrieval endpoint
