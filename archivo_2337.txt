@@ -1,31 +1,16 @@
-Regarding your questions:
+// Ejemplo para daily
+this.subscriptions.push(
+  this.curvesFacade.dailyCurves$.subscribe(data => {
+    if (data && data.length > 0) {
+      this.dailyCurvesRowData = data;
+    }
+  })
+);
 
-Yes, the most recent status should be displayed, following the current PastDue logic.
-
-David mentioned that the variance should always be shown, for all users.
-
-There should be a delete functionality—not for the parent entry (since that data comes from the Poller), but for the details. For example, in the case of a manual Mercer curve, a user might accidentally add a row with AsOfDate and EffectiveDate set to 2040-10-10 and would need to perform a logical (not physical) deletion.
-
-Now, regarding the tasks...
-
-Keep in mind that only manual curves (consultant) will have the option to be edited and deleted.
-
-CCSOL-2211: This task defines the retrieval of automatic (daily) curves.
-
-CCSOL-2252: This task defines the retrieval of manual (consultant) curves and currently includes editing functionality.
-
-CCSOL-2253: This task defines the retrieval of manual curve details.
-
-The user stories look good to me. What I would suggest adding is a separate task to cover:
-
-→ Add + Edit + Delete manual (consultant) curves — leaving CCSOL-2252 focused only on retrieval, without editing.
-
-CCSOL-2212: This is a user story.
-
-The PastDue logic is as follows: if one month has passed since a row was marked as "Pending", and the latest status of that row is not Pending or Pending Approval, then it should be shown as PastDue.
-
-Examples:
-
-PastDue: true & Status: Approved → Display as PastDue
-
-PastDue: true & Status: Pending → Display as Pending
+this.subscriptions.push(
+  this.curvesFacade.consultantCurves$.subscribe(data => {
+    if (data && data.length > 0) {
+      this.consultantCurveRowData = data;
+    }
+  })
+);
