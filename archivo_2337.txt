@@ -1,103 +1,24 @@
-My idea is that we can start creating tasks in the UI to make progress even if the mockups are not yet finalized.
+Regarding your questions:
 
-Is there a correlation between deploying all of Sigma’s services and SPY going up 10%?
-Asking for science.
-Should we deploy everything again tomorrow?
+Yes, the most recent status should be displayed, following the current PastDue logic.
 
+David mentioned that the variance should always be shown, for all users.
 
-From the UI side, my suggestion is to create stories for consulting curves, such as:
+There should be a delete functionality—not for the parent entry (since that data comes from the Poller), but for the details. For example, in the case of a manual Mercer curve, a user might accidentally add a row with AsOfDate and EffectiveDate set to 2040-10-10 and would need to perform a logical (not physical) deletion.
 
-Implement Redux pattern for the retrieval endpoint
+Now, regarding the tasks...
 
-Implement Redux pattern for the persistence endpoint
+Keep in mind that only manual curves (consultant) will have the option to be edited and deleted.
 
-Then, once the mockup is completed, we can move forward with the typical integration stories, which would be:
+CCSOL-2211: This task defines the retrieval of automatic (daily) curves.
 
-Create consultant
+CCSOL-2252: This task defines the retrieval of manual (consultant) curves and currently includes editing functionality.
 
-Update consultant
+CCSOL-2253: This task defines the retrieval of manual curve details.
 
-Delete consultant
+The user stories look good to me. What I would suggest adding is a separate task to cover:
 
-Approval flow
+→ Add + Edit + Delete manual (consultant) curves — leaving CCSOL-2252 focused only on retrieval, without editing.
 
-Even though most of these endpoints already exist, it will be necessary to make some adjustments in the UI, since the files containing the code will be modified once the new mockup is ready.
-
-
-<hr style="border: none; height: 1px; background-color: #ccc;" />
-
-<mat-checkbox [checked]="true">Sample</mat-checkbox>
-
-
-
-<hr style="border: none; height: 1px; background-color: #ccc;" />
-
-<div style="margin-top: 10px;">
-  <mat-checkbox [checked]="true">Include COL in Liability Benchmark</mat-checkbox>
-</div>
-
-
-
-<div fxLayout="row wrap" fxLayoutGap="10px">
-  <mat-checkbox fxFlex="25%">Include COL in Liability Benchmark</mat-checkbox>
-</div>
-
-
-This flow is correct: when an admin updates a row with status 'Rejected', it should change to 'Pending Approval'
-
-Bug 1: Add new checkbox field "Include COL in Liability Benchmark"
-Bug 2: The file upload error message overlaps the configuration review modal
-Bug 3: When Quant1 updates a configuration rejected by Quant2, it does not change to "Pending Approval"
-
-
-this.cibConfigForm = this.fb.group({
-  // ... otros campos ...
-  SelectedRebalanceTriggers: this.fb.group({
-    cbClientCurveConfiguration: true,
-    // ...
-  }),
-  includeColInBenchmark: [true] // <-- agregado por fuera del grupo
-});
-
-
-<app-cib-rebalance-triggers
-  [rebalanceForm]="cibConfigForm.get('SelectedRebalanceTriggers')"
-  [includeColControl]="cibConfigForm.get('includeColInBenchmark')"
-  [cibSummaryCheckboxes]="cibSummaryCheckboxes">
-</app-cib-rebalance-triggers>
-
-
-
-@Input() rebalanceForm!: FormGroup;
-@Input() includeColControl!: FormControl;
-
-
-
-<mat-checkbox [formControl]="includeColControl">
-  Include COL in Liability Benchmark
-</mat-checkbox>
-
-
-
-
-
-
-
-
-style="z-index: 2000; position: fixed;
-
-
-
-
-
-
-
-
-<div style="position: relative; z-index: 1;">
-  <form>
-    <!-- campos del formulario -->
-  </form>
-
-  <div 
-    style="margin-top: 12px; background-color: #f8d7da; color: #721c24; padding: 10px; border
+CCSOL-2212: This is a user story.
 
