@@ -22,3 +22,10 @@ The user stories look good to me. What I would suggest adding is a separate task
 
 CCSOL-2212: This is a user story.
 
+The PastDue logic is as follows: if one month has passed since a row was marked as "Pending", and the latest status of that row is not Pending or Pending Approval, then it should be shown as PastDue.
+
+Examples:
+
+PastDue: true & Status: Approved → Display as PastDue
+
+PastDue: true & Status: Pending → Display as Pending
