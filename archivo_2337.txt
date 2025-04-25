@@ -79,3 +79,36 @@ foreach (var dto in legacyTupleList)
 var resultadosCompletos = legacyTupleList
     .Where(x => x.CustomInvestableBenchmarkSolutionGroupId != 0) // opcional, si querés filtrar solo los que hicieron match
     .ToList();
+
+
+
+
+public static void GenerateInsertSQLManualRebalanceDates(string schema, string tableName, List<ManualRebalanceDateDto> dataList, string outputFile)
+{
+    GenerateSQLFileTemplate(schema, outputFile, sb =>
+    {
+        foreach (var item in dataList)
+        {
+            sb.AppendLine($$"""
+                INSERT INTO {{schema}}."{{tableName}}" 
+                ("AsOfDate", "Comment", "ManualExclusionRule", "Status", "Active", 
+                 "ReceivedDateTime", "ApprovedDateTime", "CustomInvestableBenchmarkSolutionGroupId", 
+                 "CreatedDate", "CreatedBy", "ModifiedDate", "ModifiedBy")
+                VALUES (
+                    '{{item.AsOfDate:yyyy-MM-dd}}',
+                    '{{item.Comment?.Replace("'", "''")}}',
+                    '{{item.ManualExclusionRule}}',
+                    '{{item.Status}}',
+                    {{item.Active.ToString().ToLower()}},
+                    {{(item.ReceivedDateTime != null ? $"'{item.ReceivedDateTime:yyyy-MM-dd HH:mm:ss.ffffff}'" : "NULL")}},
+                    {{(item.ApprovedDateTime != null ? $"'{item.ApprovedDateTime:yyyy-MM-dd HH:mm:ss.ffffff}'" : "NULL")}},
+                    {{item.CustomInvestableBenchmarkSolutionGroupId}},
+                    '{{item.CreatedDate:yyyy-MM-dd HH:mm:ss.ffffff}}',
+                    '{{item.CreatedBy?.Replace("'", "''")}}',
+                    {{(item.ModifiedDate != null ? $"'{item.ModifiedDate:yyyy-MM-dd HH:mm:ss.ffffff}'" : "NULL")}},
+                    {{(item.ModifiedBy != null ? $"'{item.ModifiedBy.Replace("'", "''")}'" : "NULL")}}
+                );
+            """);
+        }
+    });
+}
