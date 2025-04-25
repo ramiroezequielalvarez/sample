@@ -1,16 +1,1 @@
-// Ejemplo para daily
-this.subscriptions.push(
-  this.curvesFacade.dailyCurves$.subscribe(data => {
-    if (data && data.length > 0) {
-      this.dailyCurvesRowData = data;
-    }
-  })
-);
-
-this.subscriptions.push(
-  this.curvesFacade.consultantCurves$.subscribe(data => {
-    if (data && data.length > 0) {
-      this.consultantCurveRowData = data;
-    }
-  })
-);
+Can an economy grow indefinitely based on debt and consumption, or is confidence alone enough to sustain it without facing a systemic disruption? And if confidence is truly the key, why don’t other trusted economies—like those in Northern Europe—follow the same dynamic?
