@@ -1,3 +1,1 @@
-if the task also includes an option in the UI where you can programmatically disable consultant curves, it will require an endpoint and is an additional task.
-
-the current implementation is simply an additional field where it can be scripted to enable or disable.
+TrustServerCertificate=True;
