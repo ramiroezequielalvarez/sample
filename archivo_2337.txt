@@ -1,1 +1,46 @@
-TrustServerCertificate=True;
+string query = $$"""
+WITH HighLevelSolutionGroups AS (
+    SELECT
+        A.entity_uid AS LegacySolutionId,
+        A.entity_name AS LegacySolutionName,
+        C.value AS LegacyCibConfigurationId,
+        D.value AS EffectiveDate,
+        A.lastModifiedDate AS CibLastModifiedDate,
+        E.updated_by AS CibLastModifiedBy
+    FROM accountmatrix.entity A
+    INNER JOIN accountmatrix.entity_attribute B ON A.entity_uid = B.entity_uid
+    INNER JOIN accountmatrix.entity_attribute C ON A.entity_uid = C.entity_uid
+    INNER JOIN accountmatrix.entity_attribute D ON A.entity_uid = D.entity_uid
+    INNER JOIN accountmatrix.entity E ON E.entity_uid = C.value
+    WHERE
+        A.entity_type_name = 'ACCOUNT_GROUP'
+        AND B.attribute_name = 'ACCOUNT_GROUP_TYPE'
+        AND B.value = 'IDI_Composite'
+        AND C.attribute_name = 'InvestableBenchmarkConfigurationTable'
+        AND D.attribute_name = 'EffectiveDate'
+),
+ManualRebalanceDates AS (
+    SELECT
+        A.LegacySolutionId,
+        A.LegacySolutionName,
+        CAST(B.value AS DATE) AS AsOfDate,
+        'Seed Data from AMS' AS Comment,
+        CASE
+            WHEN B.attribute_name = 'ManualCIBRebalanceDate' THEN 'Included'
+            WHEN B.attribute_name = 'ManualCIBRebalanceDate_Exclusion' THEN 'Excluded'
+            ELSE 'SomethingWeirdHappened'
+        END AS ManualExclusionRule,
+        'Approved' AS Status,
+        1 AS Active,
+        B.lastModifiedDate AS ReceivedDateTime,
+        B.lastModifiedDate AS ApprovedDateTime,
+        B.lastModifiedDate AS CreatedDate,
+        B.updated_by AS CreatedBy
+    FROM HighLevelSolutionGroups A
+    INNER JOIN accountmatrix.entity_attribute B ON B.entity_uid = A.LegacyCibConfigurationId
+    WHERE B.attribute_name IN ('ManualCIBRebalanceDate', 'ManualCIBRebalanceDate_Exclusion')
+)
+SELECT *
+FROM ManualRebalanceDates
+ORDER BY LegacySolutionId, AsOfDate
+""";
