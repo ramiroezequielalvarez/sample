@@ -74,3 +74,8 @@ foreach (var dto in legacyTupleList)
         dto.CustomInvestableBenchmarkSolutionGroupId = sampleId;
     }
 }
+
+
+var resultadosCompletos = legacyTupleList
+    .Where(x => x.CustomInvestableBenchmarkSolutionGroupId != 0) // opcional, si querés filtrar solo los que hicieron match
+    .ToList();
