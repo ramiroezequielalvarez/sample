@@ -61,3 +61,16 @@ public class ManualRebalanceDateDto
     public DateTime CreatedDate { get; set; }
     public string CreatedBy { get; set; }
 }
+
+
+// Crear diccionario para búsqueda rápida por LegacySolutionId
+var alphaMap = alpha.ToDictionary(x => x.LegacySolutionId, x => x.Id);
+
+// Hacer el join y setear el campo en legacyTupleList
+foreach (var dto in legacyTupleList)
+{
+    if (alphaMap.TryGetValue(dto.LegacySolutionId, out var sampleId))
+    {
+        dto.CustomInvestableBenchmarkSolutionGroupId = sampleId;
+    }
+}
