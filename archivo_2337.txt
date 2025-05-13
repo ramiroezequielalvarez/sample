@@ -7,3 +7,8 @@ this.addConsultantCurveForm.patchValue({
 
 const fecha = '2020-10-10';
 const fechaCompleta = fecha + noTimeZone;
+
+
+Yes, your implementation works fine. The issue is that in the database the CreatedBy field in consultantCurveData would be null.
+
+Although your approach works, maybe when deploying a script could be created to assign the correct value to the consultantcurvedata field.
