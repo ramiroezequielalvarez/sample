@@ -5,6 +5,10 @@ this.addConsultantCurveForm.patchValue({
 });
 
 
+The migration didn’t affect any Sigma code. What was done, however, was an upgrade of ag-grid, which shouldn’t have any impact either. Nothing specific was changed, so I think the best option might be to test things a bit and see if the flows are still working fine
+
+
+
 const fecha = '2020-10-10';
 const fechaCompleta = fecha + noTimeZone;
 
