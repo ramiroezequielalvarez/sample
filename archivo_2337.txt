@@ -8,6 +8,14 @@ this.addConsultantCurveForm.patchValue({
 const fecha = '2020-10-10';
 const fechaCompleta = fecha + noTimeZone;
 
+const date = moment('2025-05-01', 'YYYY-MM-DD');
+
+this.addConsultantCurveForm.patchValue({
+  asOfDatePicker: date,
+  effectiveDatePicker: date,
+});
+
+
 
 Yes, your implementation works fine. The issue is that in the database the CreatedBy field in consultantCurveData would be null.
 
