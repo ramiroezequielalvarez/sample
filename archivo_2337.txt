@@ -19,6 +19,16 @@ this.addConsultantCurveForm.get('asOfDatePicker')?.setValue(momentDate, { emitEv
 
 
 
+
+const control = this.addConsultantCurveForm.get('asOfDatePicker');
+
+control?.setValue(null); // limpiar primero
+control?.setValue(momentDate); // luego setear valor real
+
+
+
+
+
 Yes, your implementation works fine. The issue is that in the database the CreatedBy field in consultantCurveData would be null.
 
 Although your approach works, maybe when deploying a script could be created to assign the correct value to the consultantcurvedata field.
