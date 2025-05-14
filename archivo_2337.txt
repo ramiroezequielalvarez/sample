@@ -4,3 +4,28 @@ if (this.data?.operation === 'update') {
     const readonly = this.consultantDataAlreadyExistForDate;
     this.componentSetup(readonly);
 }
+
+
+isSubmitDisabled(): boolean {
+  if (this.data?.operation === 'create') {
+    return !this.addConsultantCurveForm.valid || this.consultantDataAlreadyExistForDate;
+  }
+
+  if (this.data?.operation === 'update') {
+    const effectiveDate = this.addConsultantCurveForm.get('effectiveDatePicker');
+    return !effectiveDate || !effectiveDate.valid;
+  }
+
+  return true; // fallback defensivo
+}
+
+
+<button
+  mat-flat-button
+  class="market-value-update"
+  color="primary"
+  type="button"
+  (click)="onCreate(operationSelected)"
+  [disabled]="isSubmitDisabled()">
+  Send for Approval
+</button>
