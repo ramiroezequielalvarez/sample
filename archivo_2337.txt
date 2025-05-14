@@ -1,5 +1,7 @@
+const isValidNumber = value => value !== null && value !== '';
+
 const curvePoints = this.rowData
-  .filter(row => row.submittedMaturity != null && row.submittedYield != null)
+  .filter(row => isValidNumber(row.submittedMaturity) && isValidNumber(row.submittedYield))
   .map(row => ({
     Maturity: row.submittedMaturity,
     Yield: row.submittedYield,
