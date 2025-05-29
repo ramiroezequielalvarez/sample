@@ -1,5 +1,0 @@
-<div style="display: flex; justify-content: flex-end;">
-  <div class="action-button-holder">
-    <a (click)="onResetGrid()">RESET GRID</a>
-  </div>
-</div>
