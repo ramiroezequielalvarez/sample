@@ -1,16 +1,14 @@
 <!-- Contenedor general alineado a la derecha -->
 <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
-
-  <!-- Reset Grid link arriba -->
-  <a (click)="onResetGrid()" style="color: #1976d2; font-weight: 500; cursor: pointer; text-transform: uppercase;">
+  
+  <!-- Reset Grid con clase compartida -->
+  <a (click)="onResetGrid()" class="action-button-holder">
     RESET GRID
   </a>
 
-  <!-- Botones alineados horizontalmente a la derecha -->
-  <div style="display: flex; gap: 12px; align-items: center;">
-    <a (click)="onCancel()" style="color: #1976d2; font-weight: 500; cursor: pointer; text-transform: uppercase;">
-      CANCEL
-    </a>
+  <!-- Botones alineados a la derecha -->
+  <div class="action-button-holder" style="display: flex; gap: 12px; align-items: center;">
+    <a (click)="onCancel()">CANCEL</a>
 
     <button
       mat-flat-button
