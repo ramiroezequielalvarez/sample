@@ -1,3 +1,5 @@
-getMockBlendedCurvesDefaultRowData() {
-  return this.blendedCurvesEmptyData.map(obj => ({ ...obj }));
-}
+this.blendedCurveRowData = this.blendedCurveRowData.map(() => ({
+  Curve: '',
+  Family: '',
+  BlendedAllocation: ''
+}));
