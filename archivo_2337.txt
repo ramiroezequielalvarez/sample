@@ -1,34 +1,19 @@
-<form [formGroup]="addBlendCurveForm">
-  <div class="consultant-curve-form" style="display: flex; gap: 12px;">
-    
-    <!-- Effective Date -->
-    <div style="width: 250px;">
-      <mat-form-field appearance="outline" style="width: 100%;">
-        <mat-label>Effective Date</mat-label>
-        <input
-          matInput
-          [matDatepicker]="effectiveStartDate"
-          [readonly]="true"
-          aria-label="Effective Start Date DatePicker"
-          formControlName="effectiveDatePicker" />
-        <mat-datepicker-toggle matSuffix [for]="effectiveStartDate"></mat-datepicker-toggle>
-        <mat-datepicker #effectiveStartDate color="primary"></mat-datepicker>
-        <mat-error>Effective Date is required.</mat-error>
-      </mat-form-field>
-    </div>
+.custom-select-cell {
+  background-image: url('data:image/svg+xml;utf8,<svg fill="gray" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: 16px;
+  padding-right: 20px; /* para dejar espacio a la flecha */
+}
 
-    <!-- Description: ocupa el resto del espacio -->
-    <div style="flex: 1;">
-      <mat-form-field appearance="outline" style="width: 100%;">
-        <mat-label>Description</mat-label>
-        <input
-          matInput
-          aria-label="Description"
-          maxlength="15"
-          formControlName="description" />
-        <mat-error>Description is required.</mat-error>
-      </mat-form-field>
-    </div>
 
-  </div>
-</form>
+{
+  field: 'curve',
+  editable: true,
+  flex: 2,
+  cellEditor: 'agSelectCellEditor',
+  cellEditorParams: {
+    values: ['Curve A', 'Curve B', 'Curve C'],
+  },
+  cellClass: 'custom-select-cell'  // Aplica estilo para que se vea como dropdown
+}
