@@ -1,3 +1,43 @@
+
+<!-- Contenedor externo para alinear "Reset Grid" arriba y a la derecha -->
+<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+  
+  <!-- Link Reset Grid con mismo estilo que Cancel -->
+  <a (click)="onResetGrid()" style="color: #1976d2; font-weight: 500; cursor: pointer; text-transform: uppercase;">
+    Reset Grid
+  </a>
+
+  <!-- Botones existentes -->
+  <div class="action-button-holder" style="display: flex; gap: 8px; align-items: center;">
+    <a (click)="onCancel()" style="color: #1976d2; font-weight: 500; cursor: pointer; text-transform: uppercase;">
+      Cancel
+    </a>
+    
+    <button
+      mat-flat-button
+      class="market-value-update"
+      color="primary"
+      type="button"
+      (click)="onCreateNewConsultantCurve(operationSelected)"
+      [disabled]="isSubmitDisabled()">
+      Send for Approval
+    </button>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 .custom-select-cell {
   background-image: url('data:image/svg+xml;utf8,<svg fill="gray" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
   background-repeat: no-repeat;
