@@ -1,1 +1,26 @@
-<div style="display: flex; flex-direction: column; gap: 8px; align-items: flex-end; width: 100%;">
+<!-- Contenedor externo para alinear todo a la derecha -->
+<div style="width: 100%;">
+  <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
+    
+    <!-- Reset Grid -->
+    <div>
+      <a (click)="onResetGrid()" class="action-button-holder">RESET GRID</a>
+    </div>
+
+    <!-- Botones Cancel + Send -->
+    <div style="display: flex; gap: 12px; align-items: center;">
+      <a (click)="onCancel()" class="action-button-holder">CANCEL</a>
+
+      <button
+        mat-flat-button
+        class="market-value-update"
+        color="primary"
+        type="button"
+        (click)="onCreateNewConsultantCurve(operationSelected)"
+        [disabled]="isSubmitDisabled()">
+        SEND FOR APPROVAL
+      </button>
+    </div>
+
+  </div>
+</div>
