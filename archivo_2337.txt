@@ -1,8 +1,30 @@
-const isValidNumber = value => value !== null && value !== '';
+{
+  field: 'Benchmark',
+  editable: true,
+  flex: 2,
+  cellEditor: 'agSelectCellEditor',
+  cellEditorParams: {
+    values: ['Curve A', 'Curve B', 'Curve C'],
+  },
+}
 
-const curvePoints = this.rowData
-  .filter(row => isValidNumber(row.submittedMaturity) && isValidNumber(row.submittedYield))
-  .map(row => ({
-    Maturity: row.submittedMaturity,
-    Yield: row.submittedYield,
-  }));
+
+{
+  field: 'Family',
+  editable: false,
+  flex: 2,
+  valueGetter: params => {
+    const benchmark = params.data?.Benchmark;
+    return ['Curve A', 'Curve B', 'Curve C'].includes(benchmark) ? 'Mercier' : '';
+  },
+  cellRenderer: 'agTextCellRenderer', // asegura que se renderice como texto
+  hide: false,
+}
+
+{
+  field: 'Percentage',
+  editable: true,
+  flex: 2,
+  cellEditor: 'agTextCellEditor',
+  hide: false,
+}
