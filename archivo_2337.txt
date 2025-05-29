@@ -1,13 +1,15 @@
-<!-- Contenedor externo que alinea todo a la derecha -->
-<div style="width: 100%; display: flex; justify-content: flex-end;">
-  <div style="display: flex; flex-direction: column; gap: 8px; align-items: flex-end;">
-    
-    <!-- RESET GRID con estilo correcto -->
+<!-- Contenedor general -->
+<div style="width: 100%;">
+  
+  <!-- FILA 1: Reset Grid alineado completamente a la derecha -->
+  <div style="display: flex; justify-content: flex-end;">
     <div class="action-button-holder">
       <a (click)="onResetGrid()">RESET GRID</a>
     </div>
+  </div>
 
-    <!-- CANCEL + SEND FOR APPROVAL -->
+  <!-- FILA 2: Cancel + Send alineados a la derecha -->
+  <div style="display: flex; justify-content: flex-end;">
     <div class="action-button-holder" style="display: flex; gap: 12px; align-items: center;">
       <a (click)="onCancel()">CANCEL</a>
 
@@ -21,6 +23,6 @@
         SEND FOR APPROVAL
       </button>
     </div>
-
   </div>
+
 </div>
