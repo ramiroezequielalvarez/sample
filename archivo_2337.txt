@@ -1,13 +1,15 @@
-<!-- Contenedor externo para alinear todo a la derecha -->
+<!-- Contenedor externo alineado a la derecha -->
 <div style="width: 100%;">
   <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
     
-    <!-- Reset Grid -->
-    <a (click)="onResetGrid()" class="action-button-holder-link">RESET GRID</a>
+    <!-- Reset Grid (estilo aplicado por action-button-holder a) -->
+    <div class="action-button-holder">
+      <a (click)="onResetGrid()">RESET GRID</a>
+    </div>
 
-    <!-- Botones Cancel + Send -->
-    <div style="display: flex; gap: 12px; align-items: center;">
-      <a (click)="onCancel()" class="action-button-holder-link">CANCEL</a>
+    <!-- Cancel + Send buttons -->
+    <div class="action-button-holder" style="display: flex; gap: 12px; align-items: center;">
+      <a (click)="onCancel()">CANCEL</a>
 
       <button
         mat-flat-button
