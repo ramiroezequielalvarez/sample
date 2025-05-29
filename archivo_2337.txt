@@ -1,28 +1,24 @@
 <!-- Contenedor general -->
-<div style="width: 100%;">
-  
-  <!-- FILA 1: Reset Grid alineado completamente a la derecha -->
-  <div style="display: flex; justify-content: flex-end;">
-    <div class="action-button-holder">
-      <a (click)="onResetGrid()">RESET GRID</a>
-    </div>
+<div style="width: 100%; display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
+
+  <!-- Fila 1: RESET GRID alineado a la derecha -->
+  <div class="action-button-holder">
+    <a (click)="onResetGrid()">RESET GRID</a>
   </div>
 
-  <!-- FILA 2: Cancel + Send alineados a la derecha -->
-  <div style="display: flex; justify-content: flex-end;">
-    <div class="action-button-holder" style="display: flex; gap: 12px; align-items: center;">
-      <a (click)="onCancel()">CANCEL</a>
+  <!-- Fila 2: CANCEL + SEND FOR APPROVAL alineados a la derecha -->
+  <div class="action-button-holder" style="display: flex; gap: 12px; align-items: center;">
+    <a (click)="onCancel()">CANCEL</a>
 
-      <button
-        mat-flat-button
-        class="market-value-update"
-        color="primary"
-        type="button"
-        (click)="onCreateNewConsultantCurve(operationSelected)"
-        [disabled]="isSubmitDisabled()">
-        SEND FOR APPROVAL
-      </button>
-    </div>
+    <button
+      mat-flat-button
+      class="market-value-update"
+      color="primary"
+      type="button"
+      (click)="onCreateNewConsultantCurve(operationSelected)"
+      [disabled]="isSubmitDisabled()">
+      SEND FOR APPROVAL
+    </button>
   </div>
 
 </div>
