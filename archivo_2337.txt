@@ -6,6 +6,11 @@
   padding-right: 20px; /* para dejar espacio a la flecha */
 }
 
+cellRenderer: params => {
+  return `<span>${params.value || ''}</span><span style="float:right;color:gray;">▼</span>`;
+}
+
+
 
 {
   field: 'curve',
