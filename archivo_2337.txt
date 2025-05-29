@@ -10,6 +10,9 @@ cellRenderer: params => {
   return `<span>${params.value || ''}</span><span style="float:right;color:gray;">▼</span>`;
 }
 
+<a (click)="onResetGrid()" style="cursor: pointer; display: block; margin-bottom: 10px;">
+  Reset Grid
+</a>
 
 
 {
