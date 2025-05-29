@@ -1,18 +1,17 @@
+<!-- Contenedor general alineado a la derecha -->
+<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
 
-<!-- Contenedor externo para alinear "Reset Grid" arriba y a la derecha -->
-<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
-  
-  <!-- Link Reset Grid con mismo estilo que Cancel -->
+  <!-- Reset Grid link arriba -->
   <a (click)="onResetGrid()" style="color: #1976d2; font-weight: 500; cursor: pointer; text-transform: uppercase;">
-    Reset Grid
+    RESET GRID
   </a>
 
-  <!-- Botones existentes -->
-  <div class="action-button-holder" style="display: flex; gap: 8px; align-items: center;">
+  <!-- Botones alineados horizontalmente a la derecha -->
+  <div style="display: flex; gap: 12px; align-items: center;">
     <a (click)="onCancel()" style="color: #1976d2; font-weight: 500; cursor: pointer; text-transform: uppercase;">
-      Cancel
+      CANCEL
     </a>
-    
+
     <button
       mat-flat-button
       class="market-value-update"
@@ -20,48 +19,8 @@
       type="button"
       (click)="onCreateNewConsultantCurve(operationSelected)"
       [disabled]="isSubmitDisabled()">
-      Send for Approval
+      SEND FOR APPROVAL
     </button>
   </div>
 
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-.custom-select-cell {
-  background-image: url('data:image/svg+xml;utf8,<svg fill="gray" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
-  background-repeat: no-repeat;
-  background-position: right center;
-  background-size: 16px;
-  padding-right: 20px; /* para dejar espacio a la flecha */
-}
-
-cellRenderer: params => {
-  return `<span>${params.value || ''}</span><span style="float:right;color:gray;">▼</span>`;
-}
-
-<a (click)="onResetGrid()" style="cursor: pointer; display: block; margin-bottom: 10px;">
-  Reset Grid
-</a>
-
-
-{
-  field: 'curve',
-  editable: true,
-  flex: 2,
-  cellEditor: 'agSelectCellEditor',
-  cellEditorParams: {
-    values: ['Curve A', 'Curve B', 'Curve C'],
-  },
-  cellClass: 'custom-select-cell'  // Aplica estilo para que se vea como dropdown
-}
