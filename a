@@ -1,5 +1,22 @@
-this.blendedCurveRowData = this.blendedCurveRowData.map(() => ({
-  Curve: '',
-  Family: '',
-  BlendedAllocation: ''
-}));
+export interface ISharedConsultantCurveData extends ICurve {
+  DailyProxyCurveId?: number;
+  DailyProxyCurveName?: string;
+  Family: string;
+  IsPastDue: boolean;
+  LatestApprovalDate?: string;
+  LatestCurveStatus?: CurveStatus;
+  LatestAsofDate?: string;
+  ManualAsofDate?: string;
+  CurvedId: number;
+}
+
+export interface IConsultantCurve extends ISharedConsultantCurveData {
+  ConsultantCurveUpdates: IConsultantCurveUpdate[];
+  ResultCurveStatus?: CurveStatus; // UI calculated
+  RolledManualAsofDates?: string;
+}
+
+export interface IBaseConsultantCurve extends ISharedConsultantCurveData {
+  Result?: IConsultantCurveResult;
+  ResultCurveStatus?: CurveStatus; // UI calculated
+}
