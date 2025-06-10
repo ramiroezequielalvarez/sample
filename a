@@ -1,10 +1,8 @@
-function cleanEmptyStrings(data: any[]): any[] {
-  return data.map(row =>
-    Object.entries(row).reduce((acc, [key, value]) => {
-      if (value !== '') {
-        acc[key] = value;
-      }
-      return acc;
-    }, {} as any)
-  );
-}
+this.subscriptions.push(
+  this.baseCurves$.subscribe(baseCurves => {
+    this.BaseCurves = orderByAscending(
+      baseCurves.filter(curve => curve.Active), // Filtra los activos
+      curve => curve.CurveName                   // Ordena por nombre
+    );
+  })
+);
