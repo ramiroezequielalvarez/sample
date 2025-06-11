@@ -1,8 +1,24 @@
-this.subscriptions.push(
-  this.baseCurves$.subscribe(baseCurves => {
-    this.BaseCurves = orderByAscending(
-      baseCurves.filter(curve => curve.Active), // Filtra los activos
-      curve => curve.CurveName                   // Ordena por nombre
-    );
-  })
+INSERT INTO curves."BlendedCurveConfigurations" (
+    "DailyCurveId",
+    "EffectiveDate",
+    "Description",
+    "Active",
+    "Status",
+    "ApprovedDateTime",
+    "CreatedDate",
+    "CreatedBy",
+    "ModifiedDate",
+    "ModifiedBy"
+)
+VALUES (
+    101,                                -- DailyCurveId
+    '2025-06-11',                       -- EffectiveDate
+    'Sample curve configuration',       -- Description
+    true,                               -- Active
+    'Approved',                         -- Status
+    '2025-06-10 14:30:00',              -- ApprovedDateTime
+    now() AT TIME ZONE 'utc',          -- CreatedDate
+    'jdoe',                             -- CreatedBy
+    NULL,                               -- ModifiedDate
+    NULL                                -- ModifiedBy
 );
