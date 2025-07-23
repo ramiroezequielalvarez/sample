@@ -1,3 +1,22 @@
+private static readonly Random _rnd = new();  // o usar Random.Shared en .NET 6+
+
+private static decimal RandomPlusMinus20(decimal baseValue)
+{
+    // factor uniforme entre 0.8 y 1.2
+    var factor = 0.8m + (decimal)_rnd.NextDouble() * 0.4m; // 0.8 .. 1.2
+    return baseValue * factor;
+}
+
+
+var mock = new ExternalManagerExpectedAmountResponse
+{
+    ExpectedAmount = RandomPlusMinus20(402_867_987.620000m),
+    ExpectedDVO1ImpactAmount = RandomPlusMinus20(383_872.666697978668800000m)
+};
+
+
+
+
 if (selectedMarketValue) {
   this.watchMarketValueAmounts(selectedMarketValue);
 }
