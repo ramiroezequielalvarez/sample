@@ -1,24 +1,19 @@
-INSERT INTO curves."BlendedCurveConfigurations" (
-    "DailyCurveId",
-    "EffectiveDate",
-    "Description",
-    "Active",
-    "Status",
-    "ApprovedDateTime",
-    "CreatedDate",
-    "CreatedBy",
-    "ModifiedDate",
-    "ModifiedBy"
-)
-VALUES (
-    101,                                -- DailyCurveId
-    '2025-06-11',                       -- EffectiveDate
-    'Sample curve configuration',       -- Description
-    true,                               -- Active
-    'Approved',                         -- Status
-    '2025-06-10 14:30:00',              -- ApprovedDateTime
-    now() AT TIME ZONE 'utc',          -- CreatedDate
-    'jdoe',                             -- CreatedBy
-    NULL,                               -- ModifiedDate
-    NULL                                -- ModifiedBy
-);
+if (selectedMarketValue) {
+  this.watchMarketValueAmounts(selectedMarketValue);
+}
+
+private watchMarketValueAmounts(selected: MarketValue) {
+  this.subscriptions.push(
+    this.marketValueAmountsLoaded$.pipe(
+      filter(Boolean),
+      switchMap(() => this.marketValueAmounts$),
+      filter(Boolean),
+      map(amts => this.calculateVarianceAmount(amts, this.marketValueWorkflow)),
+    ).subscribe(variance => {
+      this.importedVals = this.MarketValueUpdatesService.setImportedVals(
+        this.buildMarketValuesToDisplay(selected),
+        variance
+      );
+    })
+  );
+}
