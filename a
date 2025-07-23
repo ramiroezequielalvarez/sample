@@ -17,3 +17,20 @@ private watchMarketValueAmounts(selected: MarketValue) {
     })
   );
 }
+
+
+getMarketValueExpectedAmounts(
+  externalManagerCode: string,
+  asOfDate: string,
+  effectiveDate: string,
+  payload: IMarketValueExpectedAmountUpdateRequest
+): Observable<IMarketValueExpectedAmount> {
+
+  const url = `${this.queryApiUrl}/externalmanagersconfig/${externalManagerCode}/(${asOfDate}:${effectiveDate})/expectedamounts`;
+
+  return this.http.put<IMarketValueExpectedAmount>(
+    url,
+    payload,                     // <<--- cuerpo requerido
+    { withCredentials: true }
+  );
+}
