@@ -1,55 +1,7 @@
-private static readonly Random _rnd = new();  // o usar Random.Shared en .NET 6+
-
-private static decimal RandomPlusMinus20(decimal baseValue)
-{
-    // factor uniforme entre 0.8 y 1.2
-    var factor = 0.8m + (decimal)_rnd.NextDouble() * 0.4m; // 0.8 .. 1.2
-    return baseValue * factor;
-}
-
-
-var mock = new ExternalManagerExpectedAmountResponse
-{
-    ExpectedAmount = RandomPlusMinus20(402_867_987.620000m),
-    ExpectedDVO1ImpactAmount = RandomPlusMinus20(383_872.666697978668800000m)
-};
-
-
-
-
-if (selectedMarketValue) {
-  this.watchMarketValueAmounts(selectedMarketValue);
-}
-
-private watchMarketValueAmounts(selected: MarketValue) {
-  this.subscriptions.push(
-    this.marketValueAmountsLoaded$.pipe(
-      filter(Boolean),
-      switchMap(() => this.marketValueAmounts$),
-      filter(Boolean),
-      map(amts => this.calculateVarianceAmount(amts, this.marketValueWorkflow)),
-    ).subscribe(variance => {
-      this.importedVals = this.MarketValueUpdatesService.setImportedVals(
-        this.buildMarketValuesToDisplay(selected),
-        variance
-      );
-    })
-  );
-}
-
-
-getMarketValueExpectedAmounts(
-  externalManagerCode: string,
-  asOfDate: string,
-  effectiveDate: string,
-  payload: IMarketValueExpectedAmountUpdateRequest
-): Observable<IMarketValueExpectedAmount> {
-
-  const url = `${this.queryApiUrl}/externalmanagersconfig/${externalManagerCode}/(${asOfDate}:${effectiveDate})/expectedamounts`;
-
-  return this.http.put<IMarketValueExpectedAmount>(
-    url,
-    payload,                     // <<--- cuerpo requerido
-    { withCredentials: true }
-  );
-}
+DELETE FROM poller."ProcessRequestDetails" d
+WHERE EXISTS (
+  SELECT 1
+  FROM poller."ProcessRequests" r
+  WHERE r."ProcessRequestId" = d."ProcessRequestId"
+    AND r."ProcessId" = 46
+);
