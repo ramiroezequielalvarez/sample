@@ -5,3 +5,14 @@ WHERE EXISTS (
   WHERE r."ProcessRequestId" = d."ProcessRequestId"
     AND r."ProcessId" = 46
 );
+public async Task<bool> Run(ProcessType processorType, OutboxMessage outboxMessage)
+{
+    var processor = _processors.FirstOrDefault(x => x.ProcessType == processorType);
+
+    if (processor == null)
+    {
+        throw new ArgumentNullException(nameof(processorType));
+    }
+
+    return await processor.ProcessOutboxMessage(outboxMessage);
+}
