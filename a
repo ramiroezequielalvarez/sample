@@ -16,3 +16,4 @@ public async Task<bool> Run(ProcessType processorType, OutboxMessage outboxMessa
 
     return await processor.ProcessOutboxMessage(outboxMessage);
 }
+I'm sharing the release document. Please let me know if everything looks good.
