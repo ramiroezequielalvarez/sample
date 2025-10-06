@@ -1,1 +1,32 @@
-Create SQL backfill script for CustodianAccountId and CustodianName in EM and EMConfig
+public List<CustodianExternalManagerDataInfoRaw2> GetCustodianEMData(int transactionId)
+{
+    return _db.Query("LDI.AssetValues_AllCustodianExternalAccountsSplit as av")
+        .Select(
+            "av.CustodianAccountID",
+            "av.CustodianName",
+            "av.AsOfDate",
+            "av.MarketValue",
+            "av.EffectiveDate"
+        )
+        .Where("av.TransactionsStatusControlID", "=", transactionId)
+        .WhereNotNull("av.AMS_ExternalMgrID")
+        .OrderByDesc("av.AMS_ExternalMgrID")
+        .Get<CustodianExternalManagerDataInfoRaw2>()
+        .ToList();
+}
+
+
+
+SELECT
+  av.CustodianAccountID,
+  av.CustodianName,
+  av.AsOfDate,
+  av.MarketValue,
+  av.EffectiveDate
+FROM LDI.AssetValues_AllCustodianExternalAccountsSplit AS av
+WHERE av.TransactionsStatusControlID = @transactionId
+  AND av.AMS_ExternalMgrID IS NOT NULL
+ORDER BY av.AMS_ExternalMgrID DESC;
+
+
+.SelectRaw("av.CustodianAccountID as CustodianAccountID, av.CustodianName as CustodianName, av.AsOfDate, av.MarketValue, av.EffectiveDate")
